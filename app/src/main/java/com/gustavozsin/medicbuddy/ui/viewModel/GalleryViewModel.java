@@ -1,4 +1,4 @@
-package com.gustavozsin.medicbuddy.ui.gallery;
+package com.gustavozsin.medicbuddy.ui.viewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,4 +1,4 @@
-package com.gustavozsin.medicbuddy.ui.slideshow;
+package com.gustavozsin.medicbuddy.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gustavozsin.medicbuddy.databinding.FragmentSlideshowBinding;
+import com.gustavozsin.medicbuddy.ui.viewModel.SlideshowViewModel;
 
 public class SlideshowFragment extends Fragment {
 

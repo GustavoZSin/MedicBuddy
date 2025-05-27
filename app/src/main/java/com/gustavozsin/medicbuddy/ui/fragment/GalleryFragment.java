@@ -1,4 +1,4 @@
-package com.gustavozsin.medicbuddy.ui.gallery;
+package com.gustavozsin.medicbuddy.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gustavozsin.medicbuddy.databinding.FragmentGalleryBinding;
+import com.gustavozsin.medicbuddy.ui.viewModel.GalleryViewModel;
 
 public class GalleryFragment extends Fragment {
 

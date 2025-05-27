@@ -1,4 +1,4 @@
-package com.gustavozsin.medicbuddy.ui.home;
+package com.gustavozsin.medicbuddy.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.databinding.FragmentHomeBinding;
+import com.gustavozsin.medicbuddy.ui.viewModel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

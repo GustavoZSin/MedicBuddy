@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.gustavozsin.medicbuddy.ui.home.HomeFragment"
+        android:name="com.gustavozsin.medicbuddy.ui.fragment.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.gustavozsin.medicbuddy.ui.gallery.GalleryFragment"
+        android:name="com.gustavozsin.medicbuddy.ui.fragment.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.gustavozsin.medicbuddy.ui.slideshow.SlideshowFragment"
+        android:name="com.gustavozsin.medicbuddy.ui.fragment.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_medicines"
-        android:name="com.gustavozsin.medicbuddy.ui.medicines.MedicinesFragment"
+        android:name="com.gustavozsin.medicbuddy.ui.fragment.MedicinesFragment"
         android:label="@string/menu_medicines"
         tools:layout="@layout/fragment_medicines" />
 </navigation>

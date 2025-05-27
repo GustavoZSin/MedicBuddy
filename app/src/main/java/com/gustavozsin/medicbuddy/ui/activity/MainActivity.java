@@ -1,4 +1,4 @@
-package com.gustavozsin.medicbuddy;
+package com.gustavozsin.medicbuddy.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
