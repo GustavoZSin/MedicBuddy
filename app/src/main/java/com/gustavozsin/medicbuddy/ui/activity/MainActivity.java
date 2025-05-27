@@ -1,9 +1,11 @@
 package com.gustavozsin.medicbuddy.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -16,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gustavozsin.medicbuddy.R;
+import com.gustavozsin.medicbuddy.dao.MedicineSchedulingDAO;
 import com.gustavozsin.medicbuddy.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,18 +29,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MainActivity", "onCreate started");
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.appBarMain.toolbar);
+
         binding.appBarMain.appBarMainFabNewMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .setAnchorView(R.id.app_bar_main_fab_new_medicine).show();
+                startActivity(new Intent(MainActivity.this, MedicineSchedulingActivity.class));
             }
         });
         DrawerLayout drawer = binding.drawerLayout;

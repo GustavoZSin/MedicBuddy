@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="8dp">
 
         <!-- Nome -->
         <TextView
@@ -19,9 +20,10 @@
             android:layout_marginTop="8dp" />
 
         <EditText
-            android:id="@+id/medicine_name"
+            android:id="@+id/activity_medicine_scheduling_medicine_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:hint="Paracetamol" />
 
         <!-- Dose -->
@@ -33,7 +35,7 @@
             android:layout_marginTop="12dp" />
 
         <EditText
-            android:id="@+id/medicine_dose"
+            android:id="@+id/activity_medicine_scheduling_medicine_dose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
@@ -48,7 +50,7 @@
             android:layout_marginTop="12dp" />
 
         <Spinner
-            android:id="@+id/medicine_dose_unit"
+            android:id="@+id/activity_medicine_scheduling_medicine_dose_unit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -61,13 +63,11 @@
             android:layout_marginTop="12dp" />
 
         <EditText
-            android:id="@+id/medicine_start_date"
+            android:id="@+id/activity_medicine_scheduling_medicine_start_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="26/05/2025"
-            android:focusable="false"
-            android:clickable="true"
-            android:inputType="none" />
+            android:inputType="date" />
 
         <!-- Frequência -->
         <TextView
@@ -78,7 +78,7 @@
             android:layout_marginTop="12dp" />
 
         <Spinner
-            android:id="@+id/medicine_frequency"
+            android:id="@+id/activity_medicine_scheduling_medicine_frequency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -91,20 +91,18 @@
             android:layout_marginTop="12dp" />
 
         <EditText
-            android:id="@+id/medicine_first_dose_hour"
+            android:id="@+id/activity_medicine_scheduling_medicine_first_dose_hour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="08:00"
-            android:focusable="false"
-            android:clickable="true"
-            android:inputType="none" />
+            android:inputType="datetime"/>
 
         <!-- Botão -->
         <Button
-            android:id="@+id/button_save"
+            android:id="@+id/activity_medicine_scheduling_button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"
-            android:layout_marginTop="24dp" />
+            android:layout_margin="24dp" />
     </LinearLayout>
 </ScrollView>

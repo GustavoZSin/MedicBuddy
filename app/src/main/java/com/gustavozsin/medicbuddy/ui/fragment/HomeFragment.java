@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.gustavozsin.medicbuddy.dao.MedicineSchedulingDAO;
 import com.gustavozsin.medicbuddy.databinding.FragmentHomeBinding;
 import com.gustavozsin.medicbuddy.ui.viewModel.HomeViewModel;
 
@@ -26,18 +27,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //TODO: lista somente para exemplo
-        List<String> medicines = new ArrayList<>(Arrays.asList("Aciclovir", "Neosaldina", "Ibuprofeno"));
-
-        ListView medicinesList = binding.fragmentHomeListMedicines;
-        medicinesList.setAdapter(
-                new ArrayAdapter<>(
-                        requireContext(),
-                        android.R.layout.simple_list_item_1,
-                        medicines
-                )
-        );
-
+        //TODO: Verificar isso depois
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         return root;
@@ -47,5 +37,22 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //TODO: lista somente para exemplo
+        MedicineSchedulingDAO medicineSchedulingDAO = new MedicineSchedulingDAO();
+
+        ListView medicinesList = binding.fragmentHomeListMedicines;
+        medicinesList.setAdapter(
+                new ArrayAdapter<>(
+                        requireContext(),
+                        android.R.layout.simple_list_item_1,
+                        medicineSchedulingDAO.todaySchedulings()
+                )
+        );
     }
 }
