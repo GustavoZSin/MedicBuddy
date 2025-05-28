@@ -15,13 +15,10 @@ import com.gustavozsin.medicbuddy.dao.MedicineSchedulingDAO;
 import com.gustavozsin.medicbuddy.databinding.FragmentHomeBinding;
 import com.gustavozsin.medicbuddy.ui.viewModel.HomeViewModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private final MedicineSchedulingDAO medicineSchedulingDAO = new MedicineSchedulingDAO();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -42,9 +39,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        configureList();
+    }
 
+    private void configureList() {
         //TODO: lista somente para exemplo
-        MedicineSchedulingDAO medicineSchedulingDAO = new MedicineSchedulingDAO();
 
         ListView medicinesList = binding.fragmentHomeListMedicines;
         medicinesList.setAdapter(
