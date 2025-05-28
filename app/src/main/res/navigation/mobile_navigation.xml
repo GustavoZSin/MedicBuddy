@@ -3,29 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_my_reminders">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.gustavozsin.medicbuddy.ui.fragment.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_my_reminders"
+        android:name="com.gustavozsin.medicbuddy.ui.fragment.MyRemindersFragment"
+        android:label="@string/menu_my_reminders"
+        tools:layout="@layout/fragment_my_reminders" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.gustavozsin.medicbuddy.ui.fragment.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.gustavozsin.medicbuddy.ui.fragment.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
-        android:id="@+id/nav_medicines"
-        android:name="com.gustavozsin.medicbuddy.ui.fragment.MedicinesFragment"
-        android:label="@string/menu_medicines"
-        tools:layout="@layout/fragment_medicines" />
+        android:id="@+id/nav_my_pharmacy"
+        android:name="com.gustavozsin.medicbuddy.ui.fragment.MyPharmacyFragment"
+        android:label="@string/menu_my_pharmacy"
+        tools:layout="@layout/fragment_my_pharmacy" />
 </navigation>

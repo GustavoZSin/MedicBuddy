@@ -12,16 +12,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gustavozsin.medicbuddy.dao.MedicineSchedulingDAO;
-import com.gustavozsin.medicbuddy.databinding.FragmentHomeBinding;
+import com.gustavozsin.medicbuddy.databinding.FragmentMyRemindersBinding;
 import com.gustavozsin.medicbuddy.ui.viewModel.HomeViewModel;
 
-public class HomeFragment extends Fragment {
+public class MyRemindersFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentMyRemindersBinding binding;
     private final MedicineSchedulingDAO medicineSchedulingDAO = new MedicineSchedulingDAO();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentMyRemindersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         //TODO: Verificar isso depois

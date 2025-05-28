@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private void configureDrawer() {
         DrawerLayout drawer = binding.drawerLayout;
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_my_reminders, R.id.nav_my_pharmacy)
                 .setOpenableLayout(drawer)
                 .build();
     }

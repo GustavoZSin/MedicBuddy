@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_header_desc">Header de Navegação</string>
+    <string name="action_settings">Configurações</string>
+    <string name="menu_my_reminders">Meus Lembretes</string>
+    <string name="menu_my_pharmacy">Minha Farmácia</string>
+    <string name="text_home_today">Hoje</string>
+    <string name="add_medicine">Adicionar Medicamento</string>
+    <string name="navigation_drawer_open">Abrir menu de navegação</string>
+    <string name="navigation_drawer_close">Fechar menu de navegação</string>
+</resources>

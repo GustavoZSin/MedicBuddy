@@ -10,23 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.gustavozsin.medicbuddy.databinding.FragmentSlideshowBinding;
-import com.gustavozsin.medicbuddy.ui.viewModel.SlideshowViewModel;
+import com.gustavozsin.medicbuddy.databinding.FragmentMyPharmacyBinding;
+import com.gustavozsin.medicbuddy.ui.viewModel.MedicinesViewModel;
 
-public class SlideshowFragment extends Fragment {
+public class MyPharmacyFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentMyPharmacyBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        MedicinesViewModel medicinesViewModel =
+                new ViewModelProvider(this).get(MedicinesViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentMyPharmacyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textMedicines;
+        medicinesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
