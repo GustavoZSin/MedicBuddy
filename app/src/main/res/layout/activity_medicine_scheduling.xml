@@ -99,7 +99,7 @@
 
         <!-- Botão -->
         <Button
-            android:id="@+id/activity_medicine_scheduling_button_save"
+            android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"

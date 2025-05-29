@@ -8,4 +8,11 @@
     <string name="add_medicine">Adicionar Medicamento</string>
     <string name="navigation_drawer_open">Abrir menu de navegação</string>
     <string name="navigation_drawer_close">Fechar menu de navegação</string>
+    <string name="fragment_my_pharmacy_lbl_medicines">Estoque de Medicamentos</string>
+    <string name="fragment_my_pharmacy_button_add_medicines">Adicionar Novo Medicamento</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_name">Nome</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_concentration">Concentração</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_expiration_date">Data de Validade</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_medicine_type">Tipo</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_administration_type">Forma de Administração</string>
 </resources>

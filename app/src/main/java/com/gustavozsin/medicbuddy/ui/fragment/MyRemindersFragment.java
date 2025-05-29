@@ -45,7 +45,7 @@ public class MyRemindersFragment extends Fragment {
     private void configureList() {
         //TODO: lista somente para exemplo
 
-        ListView medicinesList = binding.fragmentHomeListMedicines;
+        ListView medicinesList = binding.fragmentMyRemindersListMedicines;
         medicinesList.setAdapter(
                 new ArrayAdapter<>(
                         requireContext(),

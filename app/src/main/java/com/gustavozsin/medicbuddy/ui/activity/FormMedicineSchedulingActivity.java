@@ -64,7 +64,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         startDateField = findViewById(R.id.activity_medicine_scheduling_medicine_start_date);
         frequencyField = findViewById(R.id.activity_medicine_scheduling_medicine_frequency);
         firstDoseHourField = findViewById(R.id.activity_medicine_scheduling_medicine_first_dose_hour);
-        saveButton = findViewById(R.id.activity_medicine_scheduling_button_save);
+        saveButton = findViewById(R.id.button_save);
     }
 
     private void saveScheduling(MedicineScheduling newMedicineScheduling) {
