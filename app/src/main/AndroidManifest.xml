@@ -14,7 +14,8 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.activity.FormAddMedicineToStockActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/add_medicine" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true"
