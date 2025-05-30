@@ -3,106 +3,150 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:background="#FDFDFD"
+        android:backgroundTint="#FDFDFD"
+        android:clipToPadding="false"
+        android:elevation="4dp"
         android:orientation="vertical"
-        android:layout_margin="8dp">
+        android:padding="20dp">
 
         <!-- Nome -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/activity_medicine_scheduling_medicine_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="Paracetamol"
             android:inputType="textPersonName"
-            android:hint="Paracetamol" />
+            android:padding="12dp"
+            android:textSize="15sp" />
 
         <!-- Dose -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Dose"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/activity_medicine_scheduling_medicine_dose"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="1"
             android:inputType="numberDecimal"
-            android:hint="1" />
+            android:padding="12dp"
+            android:textSize="15sp" />
 
         <!-- Unidade da Dose -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Dose Unit"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/activity_medicine_scheduling_medicine_dose_unit"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:padding="8dp">
+
+            <Spinner
+                android:id="@+id/activity_medicine_scheduling_medicine_dose_unit"
+                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
+        </RelativeLayout>
 
         <!-- Data de Início -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start Date"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/activity_medicine_scheduling_medicine_start_date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="26/05/2025"
-            android:inputType="date" />
+            android:background="@drawable/edit_text_background"
+            android:inputType="date"
+            android:padding="12dp"
+            android:textSize="15sp" />
 
         <!-- Frequência -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Frequency"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/activity_medicine_scheduling_medicine_frequency"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:padding="8dp">
+
+            <Spinner
+                android:id="@+id/activity_medicine_scheduling_medicine_frequency"
+                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
+        </RelativeLayout>
 
         <!-- Hora da Primeira Dose -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="First Dose Hour"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/activity_medicine_scheduling_medicine_first_dose_hour"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="08:00"
-            android:inputType="datetime"/>
+            android:background="@drawable/edit_text_background"
+            android:inputType="datetime"
+            android:padding="12dp"
+            android:textSize="15sp" />
 
         <!-- Botão -->
         <Button
             android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#4CAF50"
             android:text="Save"
-            android:layout_margin="24dp" />
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

@@ -2,40 +2,52 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:padding="16dp">
 
-    <ListView
-        android:id="@+id/fragment_my_pharmacy_list_medicines"
-        android:layout_width="373dp"
-        android:layout_height="595dp"
-        android:layout_margin="16dp"
-        android:background="#144CAF50"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_my_pharmacy_lbl_medicines"
-        app:layout_constraintVertical_bias="0.079" />
-
-    <Button
-        android:id="@+id/fragment_my_pharmacy_button_add_medicine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_my_pharmacy_button_add_medicines"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.917"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_my_pharmacy_list_medicines" />
-
+    <!-- Título -->
     <TextView
         android:id="@+id/fragment_my_pharmacy_lbl_medicines"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fragment_my_pharmacy_lbl_medicines"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.053"
+        android:textColor="#212121"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Lista de medicamentos -->
+    <ListView
+        android:id="@+id/fragment_my_pharmacy_list_medicines"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FFFFFF"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"
+        android:elevation="2dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_my_pharmacy_button_add_medicine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_my_pharmacy_lbl_medicines" />
+
+    <!-- Botão de adicionar medicamento -->
+    <Button
+        android:id="@+id/fragment_my_pharmacy_button_add_medicine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_my_pharmacy_button_add_medicines"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#4CAF50"
+        android:elevation="4dp"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
