@@ -15,7 +15,7 @@
     <string name="fragment_my_pharmacy_lbl_medicines">Medicine Stock</string>
     <string name="fragment_my_pharmacy_button_add_medicines">Add New Medicine</string>
     <string name="activity_form_add_medicine_to_stock_lbl_name">Name</string>
-    <string name="activity_form_add_medicine_to_stock_lbl_concentration">Concentration</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_quantity_stock">Quantity</string>
     <string name="activity_form_add_medicine_to_stock_lbl_expiration_date">Expiration Date</string>
     <string name="activity_form_add_medicine_to_stock_lbl_medicine_type">Type</string>
     <string name="activity_form_add_medicine_to_stock_lbl_administration_type">Administration Type</string>

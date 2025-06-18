@@ -36,11 +36,11 @@
             android:padding="12dp"
             android:textSize="15sp" />
 
-        <!-- Concentração -->
+        <!-- Quantidade de Estoque -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_concentration"
+            android:text="@string/activity_form_add_medicine_to_stock_lbl_quantity_stock"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -53,7 +53,7 @@
             android:weightSum="2">
 
             <EditText
-                android:id="@+id/activity_form_add_medicine_to_stock_concentration"
+                android:id="@+id/activity_form_add_medicine_to_stock_quantity_stock"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
@@ -70,7 +70,7 @@
                 android:padding="8dp">
 
                 <Spinner
-                    android:id="@+id/activity_form_add_medicine_to_stock_concentration_unit"
+                    android:id="@+id/activity_form_add_medicine_to_stock_medicine_unit"
                     style="@style/Widget.AppCompat.DropDownItem.Spinner"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
