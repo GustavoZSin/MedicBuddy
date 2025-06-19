@@ -26,15 +26,22 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/activity_medicine_scheduling_medicine_name"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/edit_text_background"
-            android:hint="Paracetamol"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            android:textSize="15sp" />
+            android:padding="8dp">
+
+            <Spinner
+                android:id="@+id/activity_medicine_scheduling_medicine_name"
+                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
+        </RelativeLayout>
+
+
+
+
 
         <!-- Dose -->
         <TextView

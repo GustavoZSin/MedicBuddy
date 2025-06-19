@@ -11,9 +11,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
@@ -122,7 +119,7 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
     }
     private void saveMedicine(Medicine medicine) {
         MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
-        db.medicineStockDAO().insert(medicine);
+        db.medicineDAO().insert(medicine);
         setResult(RESULT_OK);
         finish();
     }

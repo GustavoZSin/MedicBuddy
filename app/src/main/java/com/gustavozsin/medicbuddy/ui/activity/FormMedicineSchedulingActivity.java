@@ -1,5 +1,7 @@
 package com.gustavozsin.medicbuddy.ui.activity;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -14,25 +16,29 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gustavozsin.medicbuddy.R;
+import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
+import com.gustavozsin.medicbuddy.dao.MedicineDAO;
 import com.gustavozsin.medicbuddy.dao.MedicineSchedulingDAO;
 import com.gustavozsin.medicbuddy.model.MedicineScheduling;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class FormMedicineSchedulingActivity extends AppCompatActivity {
 
     public static final String NEW_MEDICINE_SCHEDULING = "New Medicine Scheduling";
-    private EditText nameField;
+    private Spinner nameField;
     private EditText medicineDoseField;
     private Spinner doseUnitField;
     private EditText startDateField;
     private Spinner frequencyField;
     private EditText firstDoseHourField;
     private Button saveButton;
-    private final MedicineSchedulingDAO dao = new MedicineSchedulingDAO();
     private static final String[] DOSE_UNITS = {"Pill", "Tablet", "mL", "Drop", "Injection"};
     private static final String[] FREQUENCIES = {"Every 4 hours", "Every 6 hours", "Every 8 hours", "Every 12 hours", "Once a day"};
+    private final MedicineSchedulingDAO dao = new MedicineSchedulingDAO();
 
+    private MedicBuddyDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +46,11 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_medicine_scheduling);
         setTitle(NEW_MEDICINE_SCHEDULING);
 
+        database = MedicBuddyDatabase.getInstance(this);
+
         initializeFields();
 
+        configureNameSpinner();
         configureDoseUnitSpinner();
         configureFrequencySpinner();
         configureDatePicker();
@@ -74,7 +83,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
 
     @NonNull
     private MedicineScheduling createMedicineScheduling() {
-        String name = nameField.getText().toString();
+        String name = nameField.getSelectedItem().toString();
         String dose = medicineDoseField.getText().toString();
         String doseUnit = doseUnitField.getSelectedItem().toString();
         String startDate = startDateField.getText().toString();
@@ -84,6 +93,16 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         return new MedicineScheduling(name, dose, doseUnit, startDate, frequency, firstDoseHour);
     }
 
+    private void configureNameSpinner() {
+        List<String> medicineNames = database.medicineDAO().getAllMedicineNames();
+        if (medicineNames == null || medicineNames.isEmpty()) {
+            medicineNames = new java.util.ArrayList<>();
+            medicineNames.add("No medicines found");
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, medicineNames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nameField.setAdapter(adapter);
+    }
     private void configureDoseUnitSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, DOSE_UNITS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

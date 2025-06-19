@@ -16,6 +16,8 @@ public interface MedicineDAO {
 
     @Query("SELECT * FROM Medicine")
     List<Medicine> getAll();
+    @Query("SELECT name FROM Medicine")
+    List<String> getAllMedicineNames();
 
     @Delete
     void delete(Medicine medicine);
