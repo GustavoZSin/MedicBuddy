@@ -34,8 +34,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private Spinner frequencyField;
     private EditText firstDoseHourField;
     private Button saveButton;
-    private static final String[] DOSE_UNITS = {"Pill", "Tablet", "mL", "Drop", "Injection"};
-    private static final String[] FREQUENCIES = {"Every 4 hours", "Every 6 hours", "Every 8 hours", "Every 12 hours", "Once a day"};
     private final MedicineSchedulingDAO dao = new MedicineSchedulingDAO();
 
     private MedicBuddyDatabase database;
@@ -104,13 +102,15 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         nameField.setAdapter(adapter);
     }
     private void configureDoseUnitSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, DOSE_UNITS);
+        String[] doseUnits = getResources().getStringArray(R.array.dose_units);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doseUnits);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         doseUnitField.setAdapter(adapter);
     }
 
     private void configureFrequencySpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, FREQUENCIES);
+        String[] frequencies = getResources().getStringArray(R.array.frequencies);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, frequencies);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         frequencyField.setAdapter(adapter);
     }

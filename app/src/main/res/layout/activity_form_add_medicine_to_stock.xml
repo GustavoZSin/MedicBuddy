@@ -54,29 +54,37 @@
 
             <EditText
                 android:id="@+id/activity_form_add_medicine_to_stock_quantity_stock"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:hint="1"
                 android:background="@drawable/edit_text_background"
+                android:hint="1"
                 android:inputType="numberDecimal"
                 android:padding="12dp"
                 android:textSize="15sp" />
-
-            <RelativeLayout
-                android:layout_width="179dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_background"
-                android:padding="8dp">
-
-                <Spinner
-                    android:id="@+id/activity_form_add_medicine_to_stock_medicine_unit"
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp" />
-            </RelativeLayout>
         </LinearLayout>
+
+        <!-- Tipo da Unidade do Remédio -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/activity_form_add_medicine_to_stock_lbl_unit_stock"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background"
+            android:padding="8dp">
+
+            <Spinner
+                android:id="@+id/activity_form_add_medicine_to_stock_medicine_unit"
+                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
+        </RelativeLayout>
 
         <!-- Data de Validade -->
         <TextView

@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
+            android:text="@string/activity_form_add_medicine_scheduling_lbl_name"
             android:layout_marginTop="4dp"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -39,15 +39,11 @@
                 android:layout_height="32dp" />
         </RelativeLayout>
 
-
-
-
-
         <!-- Dose -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dose"
+            android:text="@string/activity_form_add_medicine_scheduling_lbl_dose"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -66,7 +62,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dose Unit"
+            android:text="@string/activity_form_add_medicine_scheduling_lbl_dose_unit"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -88,7 +84,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Date"
+            android:text="@string/activity_form_add_medicine_scheduling_lbl_start_date"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -107,7 +103,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Frequency"
+            android:text="@string/activity_form_add_medicine_scheduling_lbl_frequency"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -129,7 +125,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="First Dose Hour"
+            android:text="@string/activity_form_add_medicine_scheduling_lbl_first_dose_hour"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />

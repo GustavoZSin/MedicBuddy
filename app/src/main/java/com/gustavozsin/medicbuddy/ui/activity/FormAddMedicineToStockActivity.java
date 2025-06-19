@@ -19,9 +19,6 @@ import com.gustavozsin.medicbuddy.model.Medicine;
 import java.util.Calendar;
 
 public class FormAddMedicineToStockActivity extends AppCompatActivity {
-    private static final String[] DOSE_UNITS = {"Pill", "Tablet", "mL", "Drop", "Injection"};
-    private static final String[] MEDICINE_TYPES = {"Reference", "Generic", "Similar", "Manipulated"};
-    private static final String[] ADMINISTRATION_TYPES = {"Oral", "Topical", "Injection", "Inhalation", "Other"};
     private static  String NEW_MEDICINE = "New Medicine to Stock";
 
     private EditText nameField;
@@ -60,17 +57,20 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
     }
 
     private void configureQuantityUnitSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, DOSE_UNITS);
+        String[] doseUnits = getResources().getStringArray(R.array.dose_units);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doseUnits);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quantityUnitField.setAdapter(adapter);
     }
     private void configureMedicineTypeSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, MEDICINE_TYPES);
+        String[] medicineTypes = getResources().getStringArray(R.array.medicine_types);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, medicineTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         medicineTypeField.setAdapter(adapter);
     }
     private void configureAdministrationTypeSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ADMINISTRATION_TYPES);
+        String[] administrationTypes = getResources().getStringArray(R.array.administration_types);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, administrationTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         administrationTypeField.setAdapter(adapter);
     }

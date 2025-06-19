@@ -15,4 +15,44 @@
     <string name="activity_form_add_medicine_to_stock_lbl_expiration_date">Data de Validade</string>
     <string name="activity_form_add_medicine_to_stock_lbl_medicine_type">Tipo</string>
     <string name="activity_form_add_medicine_to_stock_lbl_administration_type">Forma de Administração</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_name">Nome</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_dose">Dose</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_dose_unit">Unidade da Dose</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_start_date">Data de Início</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_frequency">Frequência</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_first_dose_hour">Hora da Primeira Dose</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_unit_stock">Tipo da Unidade</string>
+    <string-array name="languages">
+        <item>Português</item>
+        <item>Inglês</item>
+    </string-array>
+    <string-array name="dose_units">
+        <item>Comprimido</item>
+        <item>Tablete</item>
+        <item>mL</item>
+        <item>Gota</item>
+        <item>Injeção</item>
+    </string-array>
+    <string-array name="medicine_types">
+        <item>Referência</item>
+        <item>Genérico</item>
+        <item>Similar</item>
+        <item>Manipulado</item>
+    </string-array>
+    <string-array name="administration_types">
+        <item>Oral</item>
+        <item>Tópico</item>
+        <item>Injeção</item>
+        <item>Inalação</item>
+        <item>Outro</item>
+    </string-array>
+    <string-array name="frequencies">
+        <item>A cada 4 horas</item>
+        <item>A cada 6 horas</item>
+        <item>A cada 8 horas</item>
+        <item>A cada 12 horas</item>
+        <item>Uma vez ao dia</item>
+    </string-array>
+    <string name="choose_language">Escolha o idioma do app</string>
+    <string name="settings_chance_language">Mudar idioma</string>
 </resources>
