@@ -11,10 +11,12 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
 import com.gustavozsin.medicbuddy.model.Medicine;
+import com.gustavozsin.medicbuddy.ui.viewModel.MedicinesViewModel;
 
 import java.util.Calendar;
 
@@ -120,6 +122,13 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
     private void saveMedicine(Medicine medicine) {
         MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
         db.medicineDAO().insert(medicine);
+
+        // Atualiza o ViewModel compartilhado para refletir a mudança no fragmento
+        MedicinesViewModel viewModel = new ViewModelProvider(
+            (androidx.lifecycle.ViewModelStoreOwner) getApplication()
+        ).get(MedicinesViewModel.class);
+        viewModel.loadMedicines(db.medicineDAO());
+
         setResult(RESULT_OK);
         finish();
     }

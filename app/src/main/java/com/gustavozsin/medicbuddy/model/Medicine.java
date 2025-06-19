@@ -42,4 +42,11 @@ public class Medicine {
 
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+
+    public String getMedicineWithQuantity() {
+        String nome = name != null ? name : "";
+        String qtd = quantity != null ? quantity : "";
+        String unidade = medicine_unit != null ? medicine_unit : "";
+        return String.format("%s (%s %s)", nome, qtd, unidade).trim();
+    }
 }
