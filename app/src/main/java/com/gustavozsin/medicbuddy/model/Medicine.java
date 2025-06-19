@@ -44,9 +44,8 @@ public class Medicine {
     public void setType(String type) { this.type = type; }
 
     public String getMedicineWithQuantity() {
-        String nome = name != null ? name : "";
-        String qtd = quantity != null ? quantity : "";
-        String unidade = medicine_unit != null ? medicine_unit : "";
-        return String.format("%s (%s %s)", nome, qtd, unidade).trim();
+        String name = this.name != null ? this.name : "";
+        String quantity = this.quantity != null ? this.quantity : "";
+        return String.format("%s (%s)", name, quantity).trim();
     }
 }

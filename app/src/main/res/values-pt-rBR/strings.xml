@@ -55,4 +55,8 @@
     </string-array>
     <string name="choose_language">Escolha o idioma do app</string>
     <string name="settings_chance_language">Mudar idioma</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
+    <string name="confirm_delete_medicine">Deseja realmente deletar este medicamento?</string>
+    <string name="medicament_name">Nome do medicamento</string>
 </resources>

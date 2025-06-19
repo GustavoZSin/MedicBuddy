@@ -12,15 +12,21 @@ import java.util.List;
 
 public class MedicinesViewModel extends ViewModel {
     private final MutableLiveData<List<String>> medicineNames = new MutableLiveData<>();
+    private final MutableLiveData<List<Medicine>> medicines = new MutableLiveData<>();
 
     public LiveData<List<String>> getMedicineNames() {
         return medicineNames;
     }
 
-    public void loadMedicines(MedicineDAO dao) {
-        List<Medicine> medicines = dao.getAll();
+    public LiveData<List<Medicine>> getMedicines() {
+        return medicines;
+    }
 
-        List<String> formatedData = formateMedicineNames(medicines);
+    public void loadMedicines(MedicineDAO dao) {
+        List<Medicine> medicinesList = dao.getAll();
+        medicines.setValue(medicinesList);
+
+        List<String> formatedData = formateMedicineNames(medicinesList);
 
         medicineNames.setValue(formatedData);
     }
