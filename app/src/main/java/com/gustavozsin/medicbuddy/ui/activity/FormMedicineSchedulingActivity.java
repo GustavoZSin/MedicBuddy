@@ -1,7 +1,5 @@
 package com.gustavozsin.medicbuddy.ui.activity;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -11,15 +9,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
-import com.gustavozsin.medicbuddy.dao.MedicineDAO;
-import com.gustavozsin.medicbuddy.dao.MedicineSchedulingDAO;
 import com.gustavozsin.medicbuddy.model.MedicineScheduling;
+import com.gustavozsin.medicbuddy.ui.viewModel.MedicineSchedulingViewModel;
 
 import java.util.Calendar;
 import java.util.List;
@@ -34,17 +33,12 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private Spinner frequencyField;
     private EditText firstDoseHourField;
     private Button saveButton;
-    private final MedicineSchedulingDAO dao = new MedicineSchedulingDAO();
-
-    private MedicBuddyDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_scheduling);
         setTitle(NEW_MEDICINE_SCHEDULING);
-
-        database = MedicBuddyDatabase.getInstance(this);
 
         initializeFields();
 
@@ -60,7 +54,9 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private void configureSaveButton() {
         saveButton.setOnClickListener(v -> {
             MedicineScheduling newMedicineScheduling = createMedicineScheduling();
-            saveScheduling(newMedicineScheduling);
+            if (validateFields(newMedicineScheduling)) {
+                saveScheduling(newMedicineScheduling);
+            }
         });
     }
 
@@ -74,9 +70,31 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.button_save);
     }
 
+    private boolean validateFields(MedicineScheduling scheduling) {
+        if (scheduling.getName().trim().isEmpty() ||
+                scheduling.getDose().trim().isEmpty() ||
+                scheduling.getStartDate().trim().isEmpty() ||
+                scheduling.getFirstDoseHour().trim().isEmpty()) {
+            Toast.makeText(this, getResources().getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     private void saveScheduling(MedicineScheduling newMedicineScheduling) {
-        dao.save(newMedicineScheduling);
-        finish();
+        try {
+            MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
+            db.medicineSchedulingDAO().insert(newMedicineScheduling);
+
+            MedicineSchedulingViewModel viewModel = new ViewModelProvider(this).get(MedicineSchedulingViewModel.class);
+            viewModel.loadSchedulings(db.medicineSchedulingDAO());
+
+            setResult(RESULT_OK);
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, getResources().getString(R.string.error_save_scheduling_try_again), Toast.LENGTH_LONG).show();
+        }
     }
 
     @NonNull
@@ -92,10 +110,11 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     }
 
     private void configureNameSpinner() {
-        List<String> medicineNames = database.medicineDAO().getAllMedicineNames();
+        MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
+        List<String> medicineNames = db.medicineDAO().getAllMedicineNames();
         if (medicineNames == null || medicineNames.isEmpty()) {
             medicineNames = new java.util.ArrayList<>();
-            medicineNames.add("No medicines found");
+            medicineNames.add(getResources().getString(R.string.no_medicines_found));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, medicineNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

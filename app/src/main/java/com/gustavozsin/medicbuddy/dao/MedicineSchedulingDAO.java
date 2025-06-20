@@ -1,33 +1,21 @@
 package com.gustavozsin.medicbuddy.dao;
 
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+
 import com.gustavozsin.medicbuddy.model.MedicineScheduling;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-public class MedicineSchedulingDAO {
-    //TODO: alterar para banco de dados depois
-    private final static List<MedicineScheduling> schedulings = new ArrayList<>();
-    public void save(MedicineScheduling medicineScheduling) {
-        schedulings.add(medicineScheduling);
-    }
+@Dao
+public interface MedicineSchedulingDAO {
+    @Insert
+    void insert(MedicineScheduling medicineScheduling);
 
-    public List<MedicineScheduling> allSchedulings() {
-        return new ArrayList<>(schedulings);
-    }
-    public List<MedicineScheduling> todaySchedulings() {
-        List<MedicineScheduling> result = new ArrayList<>();
-        String today = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+    @Query("SELECT * FROM MedicineScheduling")
+    List<MedicineScheduling> allSchedulings();
 
-        for (MedicineScheduling scheduling : schedulings) {
-            if (today.equals(scheduling.getStartDate())) {
-                result.add(scheduling);
-            }
-        }
-
-        return result;
-    }
+    @Query("SELECT * FROM MedicineScheduling WHERE startDate = :today")
+    List<MedicineScheduling> todaySchedulings(String today);
 }

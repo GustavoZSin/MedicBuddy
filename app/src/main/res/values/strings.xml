@@ -63,4 +63,8 @@
     <string name="delete">Delete</string>
     <string name="confirm_delete_medicine">Do you really want to delete this medication?</string>
     <string name="medicament_name">Medicament name</string>
+    <string name="fill_in_all_required_fields">Fill in all required fields!</string>
+    <string name="error_save_scheduling_try_again">Error saving schedule. Please try again.</string>
+    <string name="no_medicines_found">No medicines found</string>
+    <string name="error_save_medicine_try_again">Error saving medication. Please try again.</string>
 </resources>

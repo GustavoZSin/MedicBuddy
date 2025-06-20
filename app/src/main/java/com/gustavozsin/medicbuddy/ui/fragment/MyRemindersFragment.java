@@ -11,21 +11,36 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
 import com.gustavozsin.medicbuddy.dao.MedicineSchedulingDAO;
 import com.gustavozsin.medicbuddy.databinding.FragmentMyRemindersBinding;
-import com.gustavozsin.medicbuddy.ui.viewModel.HomeViewModel;
+import com.gustavozsin.medicbuddy.ui.viewModel.MedicineSchedulingViewModel;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MyRemindersFragment extends Fragment {
 
     private FragmentMyRemindersBinding binding;
-    private final MedicineSchedulingDAO medicineSchedulingDAO = new MedicineSchedulingDAO();
+    private MedicineSchedulingViewModel schedulingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMyRemindersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //TODO: Verificar isso depois
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        schedulingViewModel = new ViewModelProvider(requireActivity()).get(MedicineSchedulingViewModel.class);
+
+        schedulingViewModel.getTodaySchedulings().observe(getViewLifecycleOwner(), schedulings -> {
+            ListView medicinesList = binding.fragmentMyRemindersListMedicines;
+            medicinesList.setAdapter(
+                    new ArrayAdapter<>(
+                            requireContext(),
+                            android.R.layout.simple_list_item_1,
+                            schedulings
+                    )
+            );
+        });
 
         return root;
     }
@@ -39,19 +54,12 @@ public class MyRemindersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        configureList();
+        updateSchedulings();
     }
 
-    private void configureList() {
-        //TODO: lista somente para exemplo
-
-        ListView medicinesList = binding.fragmentMyRemindersListMedicines;
-        medicinesList.setAdapter(
-                new ArrayAdapter<>(
-                        requireContext(),
-                        android.R.layout.simple_list_item_1,
-                        medicineSchedulingDAO.todaySchedulings()
-                )
-        );
+    private void updateSchedulings() {
+        String today = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        MedicineSchedulingDAO schedulingDAO = MedicBuddyDatabase.getInstance(requireContext()).medicineSchedulingDAO();
+        schedulingViewModel.loadTodaySchedulings(schedulingDAO, today);
     }
 }

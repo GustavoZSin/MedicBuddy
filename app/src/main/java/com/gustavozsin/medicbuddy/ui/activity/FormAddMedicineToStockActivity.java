@@ -114,22 +114,24 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
         if (medicine.getName().trim().isEmpty() ||
                 medicine.getQuantity().trim().isEmpty() ||
                 medicine.getExpiration_date().trim().isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos obrigatórios!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
     private void saveMedicine(Medicine medicine) {
-        MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
-        db.medicineDAO().insert(medicine);
+        try {
+            MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
+            db.medicineDAO().insert(medicine);
 
-        // Atualiza o ViewModel compartilhado para refletir a mudança no fragmento
-        MedicinesViewModel viewModel = new ViewModelProvider(
-            (androidx.lifecycle.ViewModelStoreOwner) getApplication()
-        ).get(MedicinesViewModel.class);
-        viewModel.loadMedicines(db.medicineDAO());
+            MedicinesViewModel viewModel = new ViewModelProvider(this).get(MedicinesViewModel.class);
+            viewModel.loadMedicines(db.medicineDAO());
 
-        setResult(RESULT_OK);
-        finish();
+            setResult(RESULT_OK);
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, getResources().getString(R.string.error_save_medicine_try_again), Toast.LENGTH_LONG).show();
+        }
     }
 }

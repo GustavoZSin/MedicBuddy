@@ -59,4 +59,8 @@
     <string name="delete">Deletar</string>
     <string name="confirm_delete_medicine">Deseja realmente deletar este medicamento?</string>
     <string name="medicament_name">Nome do medicamento</string>
+    <string name="fill_in_all_required_fields">Preencha todos os campos obrigatórios!</string>
+    <string name="error_save_scheduling_try_again">Erro ao salvar agendamento. Tente novamente.</string>
+    <string name="no_medicines_found">Nenhum medicamento encontrado</string>
+    <string name="error_save_medicine_try_again">Erro ao salvar medicamento. Tente novamente.</string>
 </resources>
