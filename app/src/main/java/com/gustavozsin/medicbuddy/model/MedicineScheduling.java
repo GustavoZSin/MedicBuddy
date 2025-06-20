@@ -57,7 +57,9 @@ public class MedicineScheduling {
 
     @Override
     public String toString() {
-        return name;
+        String name = this.name != null ? this.name : "";
+        String hour = this.firstDoseHour != null ? this.firstDoseHour : "";
+        return String.format("%s - %s", name, hour).trim();
     }
 
     public int getId() { return id; }
