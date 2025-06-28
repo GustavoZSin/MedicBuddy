@@ -30,7 +30,6 @@ public class SchedulingAlarmReceiver extends BroadcastReceiver {
         Intent activityIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        // Mensagem personalizada usando strings.xml
         String notificationText = context.getString(
             R.string.notification_medicine_reminder_text,
             firstDoseHour != null ? firstDoseHour : "--:--",
