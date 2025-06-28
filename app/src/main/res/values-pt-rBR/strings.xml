@@ -61,6 +61,19 @@
     <string name="medicament_name">Nome do medicamento</string>
     <string name="fill_in_all_required_fields">Preencha todos os campos obrigatórios!</string>
     <string name="error_save_scheduling_try_again">Erro ao salvar agendamento. Tente novamente.</string>
+    <string name="confirm_delete_scheduling">Você realmente deseja excluir este agendamento?</string>
+    <string name="reminder">Lembrete</string>
+    <string name="time_to_take_medicine">Hora de tomar o medicamento: %1$s</string>
     <string name="no_medicines_found">Nenhum medicamento encontrado</string>
     <string name="error_save_medicine_try_again">Erro ao salvar medicamento. Tente novamente.</string>
+    <string name="notification_medicine_reminder_title">Lembrete de Medicamento</string>
+    <string name="notification_medicine_reminder_text">Horário: %1$s | Tomar: %2$s de %3$s</string>
+    <string name="notification_medicine_reminder_action">Visualizar</string>
+    <string name="notification_medicine_reminder_channel">Lembretes</string>
+    <string name="notification_medicine_reminder_channel_desc">Notificações para lembretes de medicamentos agendados</string>
+    <string name="error_alarm_past_time">A data/hora do agendamento deve ser no futuro.</string>
+    <string name="error_alarm_exact_permission">Permissão para alarmes exatos não concedida. Ative nas configurações.</string>
+    <string name="scheduling_channel_name">Agendamentos</string>
+    <string name="scheduling_channel_description">Notificações de agendamentos de medicamentos</string>
+    <string name="new_medicine_scheduling">Novo Agendamento de Medicamento</string>
 </resources>

@@ -67,4 +67,17 @@
     <string name="error_save_scheduling_try_again">Error saving schedule. Please try again.</string>
     <string name="no_medicines_found">No medicines found</string>
     <string name="error_save_medicine_try_again">Error saving medication. Please try again.</string>
+    <string name="confirm_delete_scheduling">Do you really want to delete this schedule?</string>
+    <string name="reminder">Reminder</string>
+    <string name="time_to_take_medicine">Time to take the medicine: %1$s</string>
+    <string name="notification_medicine_reminder_title">Medicine Reminder</string>
+    <string name="notification_medicine_reminder_text">Time: %1$s | Take: %2$s of %3$s</string>
+    <string name="notification_medicine_reminder_action">View</string>
+    <string name="notification_medicine_reminder_channel">Reminders</string>
+    <string name="notification_medicine_reminder_channel_desc">Notifications for scheduled medicine reminders</string>
+    <string name="error_alarm_past_time">The scheduled date/time must be in the future.</string>
+    <string name="error_alarm_exact_permission">Permission for exact alarms not granted. Enable it in settings.</string>
+    <string name="scheduling_channel_name">Agendamentos</string>
+    <string name="scheduling_channel_description">Notificações de agendamentos de medicamentos</string>
+    <string name="new_medicine_scheduling">New Medicine Scheduling</string>
 </resources>

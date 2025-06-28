@@ -1,7 +1,10 @@
 package com.gustavozsin.medicbuddy.ui.activity;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,8 +27,6 @@ import java.util.Calendar;
 import java.util.List;
 
 public class FormMedicineSchedulingActivity extends AppCompatActivity {
-
-    public static final String NEW_MEDICINE_SCHEDULING = "New Medicine Scheduling";
     private Spinner nameField;
     private EditText medicineDoseField;
     private Spinner doseUnitField;
@@ -34,30 +35,20 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private EditText firstDoseHourField;
     private Button saveButton;
 
+    private String newMedicineSchedulingTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_scheduling);
-        setTitle(NEW_MEDICINE_SCHEDULING);
+
+        newMedicineSchedulingTitle = getString(R.string.new_medicine_scheduling);
+        setTitle(newMedicineSchedulingTitle);
 
         initializeFields();
-
-        configureNameSpinner();
-        configureDoseUnitSpinner();
-        configureFrequencySpinner();
-        configureDatePicker();
-        configureTimePicker();
-
-        configureSaveButton();
-    }
-
-    private void configureSaveButton() {
-        saveButton.setOnClickListener(v -> {
-            MedicineScheduling newMedicineScheduling = createMedicineScheduling();
-            if (validateFields(newMedicineScheduling)) {
-                saveScheduling(newMedicineScheduling);
-            }
-        });
+        setupSpinners();
+        setupPickers();
+        setupSaveButton();
     }
 
     private void initializeFields() {
@@ -70,71 +61,54 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.button_save);
     }
 
-    private boolean validateFields(MedicineScheduling scheduling) {
-        if (scheduling.getName().trim().isEmpty() ||
-                scheduling.getDose().trim().isEmpty() ||
-                scheduling.getStartDate().trim().isEmpty() ||
-                scheduling.getFirstDoseHour().trim().isEmpty()) {
-            Toast.makeText(this, getResources().getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
+    private void setupSpinners() {
+        setupNameSpinner();
+        setupDoseUnitSpinner();
+        setupFrequencySpinner();
     }
 
-    private void saveScheduling(MedicineScheduling newMedicineScheduling) {
-        try {
-            MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
-            db.medicineSchedulingDAO().insert(newMedicineScheduling);
-
-            MedicineSchedulingViewModel viewModel = new ViewModelProvider(this).get(MedicineSchedulingViewModel.class);
-            viewModel.loadSchedulings(db.medicineSchedulingDAO());
-
-            setResult(RESULT_OK);
-            finish();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, getResources().getString(R.string.error_save_scheduling_try_again), Toast.LENGTH_LONG).show();
-        }
+    private void setupPickers() {
+        setupDatePicker();
+        setupTimePicker();
     }
 
-    @NonNull
-    private MedicineScheduling createMedicineScheduling() {
-        String name = nameField.getSelectedItem().toString();
-        String dose = medicineDoseField.getText().toString();
-        String doseUnit = doseUnitField.getSelectedItem().toString();
-        String startDate = startDateField.getText().toString();
-        String frequency = frequencyField.getSelectedItem().toString();
-        String firstDoseHour = firstDoseHourField.getText().toString();
-
-        return new MedicineScheduling(name, dose, doseUnit, startDate, frequency, firstDoseHour);
+    private void setupSaveButton() {
+        saveButton.setOnClickListener(v -> {
+            MedicineScheduling scheduling = createMedicineSchedulingFromFields();
+            if (validateFields(scheduling)) {
+                saveScheduling(scheduling);
+                scheduleAlarm(scheduling);
+            }
+        });
     }
 
-    private void configureNameSpinner() {
+    private void setupNameSpinner() {
         MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
         List<String> medicineNames = db.medicineDAO().getAllMedicineNames();
         if (medicineNames == null || medicineNames.isEmpty()) {
             medicineNames = new java.util.ArrayList<>();
-            medicineNames.add(getResources().getString(R.string.no_medicines_found));
+            medicineNames.add(getString(R.string.no_medicines_found));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, medicineNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nameField.setAdapter(adapter);
     }
-    private void configureDoseUnitSpinner() {
+
+    private void setupDoseUnitSpinner() {
         String[] doseUnits = getResources().getStringArray(R.array.dose_units);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doseUnits);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         doseUnitField.setAdapter(adapter);
     }
 
-    private void configureFrequencySpinner() {
+    private void setupFrequencySpinner() {
         String[] frequencies = getResources().getStringArray(R.array.frequencies);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, frequencies);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         frequencyField.setAdapter(adapter);
     }
 
-    private void configureDatePicker() {
+    private void setupDatePicker() {
         startDateField.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             new DatePickerDialog(
@@ -150,7 +124,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         });
     }
 
-    private void configureTimePicker() {
+    private void setupTimePicker() {
         firstDoseHourField.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             new TimePickerDialog(
@@ -164,5 +138,110 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
                     true
             ).show();
         });
+    }
+
+    @NonNull
+    private MedicineScheduling createMedicineSchedulingFromFields() {
+        String name = nameField.getSelectedItem().toString();
+        String dose = medicineDoseField.getText().toString();
+        String doseUnit = doseUnitField.getSelectedItem().toString();
+        String startDate = startDateField.getText().toString();
+        String frequency = frequencyField.getSelectedItem().toString();
+        String firstDoseHour = firstDoseHourField.getText().toString();
+
+        return new MedicineScheduling(name, dose, doseUnit, startDate, frequency, firstDoseHour);
+    }
+
+    private boolean validateFields(MedicineScheduling scheduling) {
+        if (scheduling.getName().trim().isEmpty() ||
+                scheduling.getDose().trim().isEmpty() ||
+                scheduling.getStartDate().trim().isEmpty() ||
+                scheduling.getFirstDoseHour().trim().isEmpty()) {
+            Toast.makeText(this, getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void saveScheduling(MedicineScheduling scheduling) {
+        try {
+            MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
+            db.medicineSchedulingDAO().insert(scheduling);
+
+            MedicineSchedulingViewModel viewModel = new ViewModelProvider(this).get(MedicineSchedulingViewModel.class);
+            viewModel.loadSchedulings(db.medicineSchedulingDAO());
+
+            setResult(RESULT_OK);
+            finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, getString(R.string.error_save_scheduling_try_again), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void scheduleAlarm(MedicineScheduling scheduling) {
+        try {
+            String[] dateParts = scheduling.getStartDate().split("/");
+            String[] timeParts = scheduling.getFirstDoseHour().split(":");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(
+                    Integer.parseInt(dateParts[2]), // year
+                    Integer.parseInt(dateParts[1]) - 1, // month
+                    Integer.parseInt(dateParts[0]), // day
+                    Integer.parseInt(timeParts[0]), // hour
+                    Integer.parseInt(timeParts[1]), // minute
+                    0
+            );
+
+            if (!isSchedulingInThePast(calendar) && isPermissionConfigured()) {
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                Intent intent = new Intent(this, com.gustavozsin.medicbuddy.alarm.SchedulingAlarmReceiver.class);
+                intent.putExtra("medicine_name", scheduling.getName());
+                intent.putExtra("dose", scheduling.getDose() + " " + scheduling.getDoseUnit());
+                intent.putExtra("firstDoseHour", scheduling.getFirstDoseHour());
+
+                int requestCode = (int) System.currentTimeMillis();
+                android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(
+                        this, requestCode, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE
+                );
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(),
+                            pendingIntent
+                    );
+                } else {
+                    alarmManager.setExact(
+                            AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(),
+                            pendingIntent
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isPermissionConfigured() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Toast.makeText(this, getString(R.string.error_alarm_exact_permission), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isSchedulingInThePast(Calendar calendar) {
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            Toast.makeText(this, getString(R.string.error_alarm_past_time), Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
     }
 }

@@ -17,10 +17,10 @@ public class MedicineSchedulingViewModel extends ViewModel {
     }
 
     public void loadTodaySchedulings(MedicineSchedulingDAO dao, String today) {
-        todaySchedulings.setValue(dao.todaySchedulings(today));
+        todaySchedulings.setValue(dao.getTodaySchedulings(today));
     }
 
     public void loadSchedulings(MedicineSchedulingDAO dao) {
-        todaySchedulings.setValue(dao.allSchedulings());
+        todaySchedulings.setValue(dao.getAll());
     }
 }
