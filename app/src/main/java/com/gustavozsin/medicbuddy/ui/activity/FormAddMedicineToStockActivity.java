@@ -21,8 +21,6 @@ import com.gustavozsin.medicbuddy.ui.viewModel.MedicinesViewModel;
 import java.util.Calendar;
 
 public class FormAddMedicineToStockActivity extends AppCompatActivity {
-    private static  String NEW_MEDICINE = "New Medicine to Stock";
-
     private EditText nameField;
     private EditText quantityField;
     private Spinner quantityUnitField;
@@ -36,18 +34,17 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_form_add_medicine_to_stock);
-        setTitle(NEW_MEDICINE);
+
+        String newMedicineTitle = getString(R.string.new_medicine);
+        setTitle(newMedicineTitle);
 
         initializeFields();
-
-        configureQuantityUnitSpinner();
-        configureMedicineTypeSpinner();
-        configureAdministrationTypeSpinner();
-        configureExpirationDatePicker();
-
-        configureSaveButton();
+        setupSpinners();
+        setupPickers();
+        setupSaveButton();
     }
 
+    // <editor-fold desc="Setups">
     private void initializeFields() {
         nameField = findViewById(R.id.activity_form_add_medicine_to_stock_name);
         quantityField = findViewById(R.id.activity_form_add_medicine_to_stock_quantity_stock);
@@ -58,26 +55,47 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.button_save);
     }
 
-    private void configureQuantityUnitSpinner() {
+    private void setupSpinners() {
+        setupQuantityUnitSpinner();
+        setupMedicineTypeSpinner();
+        setupAdministrationTypeSpinner();
+    }
+
+    private void setupPickers() {
+        setupExpirationDatePicker();
+    }
+
+    private void setupSaveButton() {
+        saveButton.setOnClickListener(v -> {
+            Medicine newMedicine = createMedicineStock();
+            if (validateFields(newMedicine)) {
+                saveMedicine(newMedicine);
+            }
+        });
+    }
+
+    private void setupQuantityUnitSpinner() {
         String[] doseUnits = getResources().getStringArray(R.array.dose_units);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doseUnits);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quantityUnitField.setAdapter(adapter);
     }
-    private void configureMedicineTypeSpinner() {
+
+    private void setupMedicineTypeSpinner() {
         String[] medicineTypes = getResources().getStringArray(R.array.medicine_types);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, medicineTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         medicineTypeField.setAdapter(adapter);
     }
-    private void configureAdministrationTypeSpinner() {
+
+    private void setupAdministrationTypeSpinner() {
         String[] administrationTypes = getResources().getStringArray(R.array.administration_types);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, administrationTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         administrationTypeField.setAdapter(adapter);
     }
 
-    private void configureExpirationDatePicker() {
+    private void setupExpirationDatePicker() {
         expirationDateField.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             new DatePickerDialog(
@@ -92,14 +110,9 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
             ).show();
         });
     }
-    private void configureSaveButton() {
-        saveButton.setOnClickListener(v -> {
-            Medicine newMedicine = createMedicineStock();
-            if (validateFields(newMedicine)) {
-                saveMedicine(newMedicine);
-            }
-        });
-    }
+    // </editor-fold>
+
+    // <editor-fold desc="Criação, Validação, Banco de Dados">
     private Medicine createMedicineStock() {
         String name = nameField.getText().toString();
         String quantity = quantityField.getText().toString();
@@ -110,15 +123,17 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
 
         return new Medicine(name, quantity, quantityUnit, expirationDate, medicineType, administrationType);
     }
+
     private boolean validateFields(Medicine medicine) {
         if (medicine.getName().trim().isEmpty() ||
                 medicine.getQuantity().trim().isEmpty() ||
                 medicine.getExpiration_date().trim().isEmpty()) {
-            Toast.makeText(this, getResources().getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
+
     private void saveMedicine(Medicine medicine) {
         try {
             MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
@@ -131,7 +146,8 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
             finish();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, getResources().getString(R.string.error_save_medicine_try_again), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_save_medicine_try_again), Toast.LENGTH_LONG).show();
         }
     }
+    // </editor-fold>
 }

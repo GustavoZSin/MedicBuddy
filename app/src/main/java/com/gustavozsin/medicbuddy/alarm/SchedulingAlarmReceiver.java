@@ -19,7 +19,7 @@ public class SchedulingAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-         Log.d("ALARM", "BroadcastReceiver disparado: chegou o horário do remédio");
+        Log.d("ALARM", "BroadcastReceiver disparado: chegou o horário do remédio");
 
         String medicineName = intent.getStringExtra("medicine_name");
         String dose = intent.getStringExtra("dose");

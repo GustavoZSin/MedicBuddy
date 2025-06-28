@@ -80,4 +80,6 @@
     <string name="scheduling_channel_name">Agendamentos</string>
     <string name="scheduling_channel_description">Notificações de agendamentos de medicamentos</string>
     <string name="new_medicine_scheduling">New Medicine Scheduling</string>
+    <string name="new_medicine">New Medicine</string>
+    <string name="btn_save">Save</string>
 </resources>

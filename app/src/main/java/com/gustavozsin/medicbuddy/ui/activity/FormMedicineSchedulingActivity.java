@@ -35,14 +35,12 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private EditText firstDoseHourField;
     private Button saveButton;
 
-    private String newMedicineSchedulingTitle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_scheduling);
 
-        newMedicineSchedulingTitle = getString(R.string.new_medicine_scheduling);
+        String newMedicineSchedulingTitle = getString(R.string.new_medicine_scheduling);
         setTitle(newMedicineSchedulingTitle);
 
         initializeFields();
@@ -51,6 +49,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         setupSaveButton();
     }
 
+    // <editor-fold desc="Setups">
     private void initializeFields() {
         nameField = findViewById(R.id.activity_medicine_scheduling_medicine_name);
         medicineDoseField = findViewById(R.id.activity_medicine_scheduling_medicine_dose);
@@ -139,7 +138,9 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
             ).show();
         });
     }
+    // </editor-fold>
 
+    // <editor-fold desc="Criação, Validação, Agendamentos, Banco de Dados">
     @NonNull
     private MedicineScheduling createMedicineSchedulingFromFields() {
         String name = nameField.getSelectedItem().toString();
@@ -223,7 +224,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     private boolean isPermissionConfigured() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -236,7 +236,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         }
         return true;
     }
-
     private boolean isSchedulingInThePast(Calendar calendar) {
         if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
             Toast.makeText(this, getString(R.string.error_alarm_past_time), Toast.LENGTH_LONG).show();
@@ -244,4 +243,5 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         }
         return false;
     }
+    // </editor-fold>
 }
