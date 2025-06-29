@@ -43,15 +43,8 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_scheduling);
 
-        // Suporte à Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
-
-        String newMedicineSchedulingTitle = getString(R.string.new_medicine_scheduling);
-        setTitle(newMedicineSchedulingTitle);
-
+        setupToolbar();
+        setTitle(getString(R.string.new_medicine_scheduling));
         initializeFields();
         setupSpinners();
         setupPickers();
@@ -59,6 +52,11 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     }
 
     // <editor-fold desc="Setups">
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) setSupportActionBar(toolbar);
+    }
+
     private void initializeFields() {
         nameField = findViewById(R.id.activity_medicine_scheduling_medicine_name);
         medicineDoseField = findViewById(R.id.activity_medicine_scheduling_medicine_dose);
@@ -76,7 +74,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         setupDoseUnitSpinner();
         setupFrequencySpinner();
 
-        // Atualiza o fim do tratamento ao mudar a frequência
         frequencyField.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
@@ -91,21 +88,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         setupDatePicker();
         setupTimePicker();
 
-        // Atualiza o fim do tratamento ao mudar data/hora de início
-        startDateField.setOnFocusChangeListener((v, hasFocus) -> { if (!hasFocus) updateEndDateTimeField(); });
-        firstDoseHourField.setOnFocusChangeListener((v, hasFocus) -> { if (!hasFocus) updateEndDateTimeField(); });
-        // Também ao mudar texto
-        startDateField.addTextChangedListener(new android.text.TextWatcher() {
-            public void afterTextChanged(android.text.Editable s) { updateEndDateTimeField(); }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
-        firstDoseHourField.addTextChangedListener(new android.text.TextWatcher() {
-            public void afterTextChanged(android.text.Editable s) { updateEndDateTimeField(); }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
-        // Atualiza ao mudar duração
         durationDaysField.addTextChangedListener(new android.text.TextWatcher() {
             public void afterTextChanged(android.text.Editable s) { updateEndDateTimeField(); }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -141,9 +123,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
                 0
             );
 
-
-            int totalReminders = ((durationDays * 24) / freqHours);
-
             Calendar endCal = (Calendar) cal.clone();
             endCal.add(Calendar.DATE, durationDays);
 
@@ -151,7 +130,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
             MedicineSchedulingViewModel viewModel = new ViewModelProvider(this).get(MedicineSchedulingViewModel.class);
 
             while (true) {
-                // Só agenda se estiver dentro do período do tratamento
                 Calendar compareCal = (Calendar) cal.clone();
                 compareCal.set(Calendar.SECOND, 0);
                 compareCal.set(Calendar.MILLISECOND, 0);
@@ -212,35 +190,104 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     }
 
     private void setupDatePicker() {
-        startDateField.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            new DatePickerDialog(
-                    this,
-                    (DatePicker view, int year, int month, int dayOfMonth) -> {
-                        String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year);
-                        startDateField.setText(selectedDate);
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            ).show();
+        startDateField.setOnClickListener(v -> showDatePicker());
+        startDateField.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) showDatePicker();
         });
     }
 
     private void setupTimePicker() {
-        firstDoseHourField.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            new TimePickerDialog(
-                    this,
-                    (TimePicker view, int hourOfDay, int minute) -> {
-                        String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
-                        firstDoseHourField.setText(selectedTime);
-                    },
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
-                    true
-            ).show();
+        firstDoseHourField.setOnClickListener(v -> showTimePicker());
+        firstDoseHourField.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) showTimePicker();
         });
+    }
+
+    private void showDatePicker() {
+        startDateField.clearFocus();
+        android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (imm != null) imm.hideSoftInputFromWindow(startDateField.getWindowToken(), 0);
+
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(
+                this,
+                (DatePicker view, int year, int month, int dayOfMonth) -> {
+                    String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year);
+                    startDateField.setText(selectedDate);
+                    updateEndDateTimeField();
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show();
+    }
+
+    private void showTimePicker() {
+        firstDoseHourField.clearFocus();
+        android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (imm != null) imm.hideSoftInputFromWindow(firstDoseHourField.getWindowToken(), 0);
+
+        Calendar calendar = Calendar.getInstance();
+        new TimePickerDialog(
+                this,
+                (TimePicker view, int hourOfDay, int minute) -> {
+                    String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+                    firstDoseHourField.setText(selectedTime);
+                    updateEndDateTimeField();
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+        ).show();
+    }
+
+    private void updateEndDateTimeField() {
+        String startDate = startDateField.getText().toString();
+        String firstDoseHour = firstDoseHourField.getText().toString();
+        String durationStr = durationDaysField.getText().toString();
+
+        if (startDate.isEmpty() || firstDoseHour.isEmpty() || durationStr.isEmpty()) {
+            endDateTimeField.setText("");
+            return;
+        }
+
+        try {
+            int days = Integer.parseInt(durationStr);
+
+            String[] dateParts = startDate.split("/");
+            String[] timeParts = firstDoseHour.split(":");
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(
+                Integer.parseInt(dateParts[2]),
+                Integer.parseInt(dateParts[1]) - 1,
+                Integer.parseInt(dateParts[0]),
+                Integer.parseInt(timeParts[0]),
+                Integer.parseInt(timeParts[1]),
+                0
+            );
+
+            cal.add(Calendar.DATE, days);
+
+            String endDate = String.format("%02d/%02d/%04d", cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
+            String endTime = String.format("%02d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
+            endDateTimeField.setText(endDate + " " + endTime);
+        } catch (Exception e) {
+            endDateTimeField.setText("");
+        }
+    }
+
+    private int getFrequencyHours(String frequency) {
+        if (frequency == null) return 24;
+        frequency = frequency.toLowerCase();
+        if (frequency.contains("24")) return 24;
+        if (frequency.contains("12")) return 12;
+        if (frequency.contains("8")) return 8;
+        if (frequency.contains("6")) return 6;
+        if (frequency.contains("4")) return 4;
+        if (frequency.contains("3")) return 3;
+        if (frequency.contains("2")) return 2;
+        return 24;
     }
     // </editor-fold>
 
@@ -250,9 +297,11 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         String name = nameField.getSelectedItem().toString();
         String dose = medicineDoseField.getText().toString();
         String doseUnit = doseUnitField.getSelectedItem().toString();
+
         String startDate = startDateField.getText().toString();
         String frequency = frequencyField.getSelectedItem().toString();
         String firstDoseHour = firstDoseHourField.getText().toString();
+
         String auxDurationDays = durationDaysField.getText().toString();
         Integer durationDays = auxDurationDays.isEmpty() ? 0 : Integer.parseInt(auxDurationDays);
 
@@ -271,22 +320,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
             return false;
         }
         return true;
-    }
-
-    private void saveScheduling(MedicineScheduling scheduling) {
-        try {
-            MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
-            db.medicineSchedulingDAO().insert(scheduling);
-
-            MedicineSchedulingViewModel viewModel = new ViewModelProvider(this).get(MedicineSchedulingViewModel.class);
-            viewModel.loadSchedulings(db.medicineSchedulingDAO());
-
-            setResult(RESULT_OK);
-            finish();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, getString(R.string.error_save_scheduling_try_again), Toast.LENGTH_LONG).show();
-        }
     }
 
     private void scheduleAlarm(MedicineScheduling scheduling) {
@@ -315,19 +348,11 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
                         this, requestCode, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE
                 );
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            pendingIntent
-                    );
-                } else {
-                    alarmManager.setExact(
-                            AlarmManager.RTC_WAKEUP,
-                            calendar.getTimeInMillis(),
-                            pendingIntent
-                    );
-                }
+                alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.getTimeInMillis(),
+                        pendingIntent
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -338,6 +363,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         String key = scheduling.getName() + "_" + scheduling.getStartDate() + "_" + scheduling.getFirstDoseHour();
         return key.hashCode();
     }
+
     private boolean isPermissionConfigured() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -350,6 +376,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         }
         return true;
     }
+
     private boolean isSchedulingInThePast(Calendar calendar) {
         if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
             Toast.makeText(this, getString(R.string.error_alarm_past_time), Toast.LENGTH_LONG).show();
@@ -358,56 +385,4 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         return false;
     }
     // </editor-fold>
-
-    private void updateEndDateTimeField() {
-        String startDate = startDateField.getText().toString();
-        String startTime = firstDoseHourField.getText().toString();
-        String durationStr = durationDaysField.getText().toString();
-        String frequency = frequencyField.getSelectedItem() != null ? frequencyField.getSelectedItem().toString() : "";
-
-        if (startDate.isEmpty() || startTime.isEmpty() || durationStr.isEmpty()) {
-            endDateTimeField.setText("");
-            return;
-        }
-
-        try {
-            String[] dateParts = startDate.split("/");
-            String[] timeParts = startTime.split(":");
-            int days = Integer.parseInt(durationStr);
-
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            cal.set(
-                Integer.parseInt(dateParts[2]),
-                Integer.parseInt(dateParts[1]) - 1,
-                Integer.parseInt(dateParts[0]),
-                Integer.parseInt(timeParts[0]),
-                Integer.parseInt(timeParts[1]),
-                0
-            );
-
-            int freqHours = getFrequencyHours(frequency);
-
-            // O último agendamento é no mesmo horário do dia (data início + dias)
-            cal.add(java.util.Calendar.DATE, days);
-
-            String endDate = String.format("%02d/%02d/%04d", cal.get(java.util.Calendar.DAY_OF_MONTH), cal.get(java.util.Calendar.MONTH) + 1, cal.get(java.util.Calendar.YEAR));
-            String endTime = String.format("%02d:%02d", cal.get(java.util.Calendar.HOUR_OF_DAY), cal.get(java.util.Calendar.MINUTE));
-            endDateTimeField.setText(endDate + " " + endTime);
-        } catch (Exception e) {
-            endDateTimeField.setText("");
-        }
-    }
-
-    private int getFrequencyHours(String frequency) {
-        if (frequency == null) return 24;
-        frequency = frequency.toLowerCase();
-        if (frequency.contains("24")) return 24;
-        if (frequency.contains("12")) return 12;
-        if (frequency.contains("8")) return 8;
-        if (frequency.contains("6")) return 6;
-        if (frequency.contains("4")) return 4;
-        if (frequency.contains("3")) return 3;
-        if (frequency.contains("2")) return 2;
-        return 24;
-    }
 }

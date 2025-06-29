@@ -87,4 +87,7 @@
     <string name="need_to_buy_medicine">É necessário comprar o medicamento novamente.</string>
     <string name="cannot_complete_no_stock">Não é possível concluir: estoque insuficiente.</string>
     <string name="edit_medicine">Editar Medicamento</string>
+    <string name="end_of_treatment">Fim do tratamento:</string>
+    <string name="ex_duration_of_treatment">Ex: 7</string>
+    <string name="duration_of_treatment">Duração do tratamento (dias):</string>
 </resources>

@@ -17,17 +17,13 @@ public abstract class MedicBuddyDatabase extends RoomDatabase {
     public abstract MedicineSchedulingDAO medicineSchedulingDAO();
 
     private static volatile MedicBuddyDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
-    public static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
     public static MedicBuddyDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
             synchronized (MedicBuddyDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE =  Room.databaseBuilder(context.getApplicationContext(),
                                     MedicBuddyDatabase.class, "medicbuddy_db")
-                            .allowMainThreadQueries() // Permite acesso ao banco na main thread (apenas para desenvolvimento)
+                            .allowMainThreadQueries()
                             .fallbackToDestructiveMigration() // Adicionado para evitar crash em mudanças de schema
                             .build();
                 }

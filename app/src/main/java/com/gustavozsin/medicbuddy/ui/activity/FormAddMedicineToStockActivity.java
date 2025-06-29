@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
@@ -31,41 +30,32 @@ import java.io.IOException;
 import java.util.Calendar;
 
 public class FormAddMedicineToStockActivity extends AppCompatActivity {
-    private EditText nameField;
-    private EditText quantityField;
-    private Spinner quantityUnitField;
-    private EditText expirationDateField;
-    private Spinner medicineTypeField;
-    private Spinner administrationTypeField;
-    private Button saveButton;
+    private EditText nameField, quantityField, expirationDateField;
+    private Spinner quantityUnitField, medicineTypeField, administrationTypeField;
+    private Button saveButton, photoButton;
     private ImageView photoView;
-    private Button photoButton;
     private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_form_add_medicine_to_stock);
 
-        // Suporte à Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
-
+        setupToolbar();
         setTitle(getString(R.string.new_medicine));
-
-        initializeFields();
+        bindFields();
         setupSpinners();
-        setupPickers();
+        setupExpirationDatePicker();
         setupSaveButton();
-
-        photoButton.setOnClickListener(v -> dispatchTakePictureIntent());
+        setupPhotoButton();
     }
 
-    // <editor-fold desc="Setups">
-    private void initializeFields() {
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) setSupportActionBar(toolbar);
+    }
+
+    private void bindFields() {
         nameField = findViewById(R.id.activity_form_add_medicine_to_stock_name);
         quantityField = findViewById(R.id.activity_form_add_medicine_to_stock_quantity_stock);
         quantityUnitField = findViewById(R.id.activity_form_add_medicine_to_stock_medicine_unit);
@@ -78,74 +68,58 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
     }
 
     private void setupSpinners() {
-        setupQuantityUnitSpinner();
-        setupMedicineTypeSpinner();
-        setupAdministrationTypeSpinner();
+        setSpinnerAdapter(quantityUnitField, R.array.dose_units);
+        setSpinnerAdapter(medicineTypeField, R.array.medicine_types);
+        setSpinnerAdapter(administrationTypeField, R.array.administration_types);
     }
 
-    private void setupPickers() {
-        setupExpirationDatePicker();
+    private void setSpinnerAdapter(Spinner spinner, int arrayResId) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(arrayResId));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    private void setupExpirationDatePicker() {
+        expirationDateField.setOnClickListener(v -> showDatePickerDialog());
+    }
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        new DatePickerDialog(
+                this,
+                (DatePicker view, int year, int month, int dayOfMonth) -> {
+                    String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year);
+                    expirationDateField.setText(selectedDate);
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show();
     }
 
     private void setupSaveButton() {
         saveButton.setOnClickListener(v -> {
-            Medicine newMedicine = createMedicineStock();
-            if (validateFields(newMedicine)) {
-                saveMedicine(newMedicine);
-            }
+            Medicine medicine = getMedicineFromFields();
+            if (validateFields(medicine)) saveMedicine(medicine);
         });
     }
 
-    private void setupQuantityUnitSpinner() {
-        String[] doseUnits = getResources().getStringArray(R.array.dose_units);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doseUnits);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        quantityUnitField.setAdapter(adapter);
+    private void setupPhotoButton() {
+        photoButton.setOnClickListener(v -> dispatchTakePictureIntent());
     }
 
-    private void setupMedicineTypeSpinner() {
-        String[] medicineTypes = getResources().getStringArray(R.array.medicine_types);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, medicineTypes);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        medicineTypeField.setAdapter(adapter);
-    }
-
-    private void setupAdministrationTypeSpinner() {
-        String[] administrationTypes = getResources().getStringArray(R.array.administration_types);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, administrationTypes);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        administrationTypeField.setAdapter(adapter);
-    }
-
-    private void setupExpirationDatePicker() {
-        expirationDateField.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            new DatePickerDialog(
-                    this,
-                    (DatePicker view, int year, int month, int dayOfMonth) -> {
-                        String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year);
-                        expirationDateField.setText(selectedDate);
-                    },
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
-            ).show();
-        });
-    }
-    // </editor-fold>
-
-    // <editor-fold desc="Criação, Validação, Banco de Dados">
-    private Medicine createMedicineStock() {
-        String name = nameField.getText().toString();
-        String quantity = quantityField.getText().toString();
-        String quantityUnit = quantityUnitField.getSelectedItem().toString();
-        String expirationDate = expirationDateField.getText().toString();
-        String medicineType = medicineTypeField.getSelectedItem().toString();
-        String administrationType = administrationTypeField.getSelectedItem().toString();
-
-        Medicine medicine = new Medicine(name, quantity, quantityUnit, expirationDate, medicineType, administrationType);
+    private Medicine getMedicineFromFields() {
+        Medicine medicine = new Medicine(
+                nameField.getText().toString(),
+                quantityField.getText().toString(),
+                quantityUnitField.getSelectedItem().toString(),
+                expirationDateField.getText().toString(),
+                medicineTypeField.getSelectedItem().toString(),
+                administrationTypeField.getSelectedItem().toString()
+        );
         medicine.setPhotoPath(currentPhotoPath);
-
         return medicine;
     }
 
@@ -163,28 +137,18 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
         try {
             MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
             db.medicineDAO().insert(medicine);
-
-            MedicinesViewModel viewModel = new ViewModelProvider(this).get(MedicinesViewModel.class);
-            viewModel.loadMedicines(db.medicineDAO());
-
+            new ViewModelProvider(this).get(MedicinesViewModel.class).loadMedicines(db.medicineDAO());
             setResult(RESULT_OK);
             finish();
         } catch (Exception e) {
-            e.printStackTrace();
             Toast.makeText(this, getString(R.string.error_save_medicine_try_again), Toast.LENGTH_LONG).show();
         }
     }
-    // </editor-fold>
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            File photoFile = createImageFileSafely();
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         getPackageName() + ".fileprovider",
@@ -195,14 +159,18 @@ public class FormAddMedicineToStockActivity extends AppCompatActivity {
         }
     }
 
+    private File createImageFileSafely() {
+        try {
+            return createImageFile();
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+
     private File createImageFile() throws IOException {
         String imageFileName = "JPEG_" + System.currentTimeMillis();
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }

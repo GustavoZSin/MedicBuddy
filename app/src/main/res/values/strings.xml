@@ -91,4 +91,7 @@
     <string name="need_to_buy_medicine">It is necessary to buy the medicine again.</string>
     <string name="cannot_complete_no_stock">Cannot complete: insufficient stock.</string>
     <string name="edit_medicine">Edit Medicine</string>
+    <string name="end_of_treatment">End of treatment:</string>
+    <string name="ex_duration_of_treatment">E.g: 7</string>
+    <string name="duration_of_treatment">Duration of treatment (days):</string>
 </resources>

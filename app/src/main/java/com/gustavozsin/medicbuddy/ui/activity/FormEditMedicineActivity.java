@@ -21,12 +21,8 @@ import com.gustavozsin.medicbuddy.model.Medicine;
 import com.gustavozsin.medicbuddy.ui.viewModel.MedicinesViewModel;
 
 public class FormEditMedicineActivity extends AppCompatActivity {
-    private EditText nameField;
-    private EditText quantityField;
-    private Spinner quantityUnitField;
-    private EditText expirationDateField;
-    private Spinner medicineTypeField;
-    private Spinner administrationTypeField;
+    private EditText nameField, quantityField, expirationDateField;
+    private Spinner quantityUnitField, medicineTypeField, administrationTypeField;
     private ImageView photoView;
     private Button saveButton;
     private String currentPhotoPath;
@@ -37,22 +33,9 @@ public class FormEditMedicineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_add_medicine_to_stock);
 
-        // Suporte à Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
-
+        setupToolbar();
         setTitle(getString(R.string.edit_medicine));
-
-        nameField = findViewById(R.id.activity_form_add_medicine_to_stock_name);
-        quantityField = findViewById(R.id.activity_form_add_medicine_to_stock_quantity_stock);
-        quantityUnitField = findViewById(R.id.activity_form_add_medicine_to_stock_medicine_unit);
-        expirationDateField = findViewById(R.id.activity_form_add_medicine_to_stock_expiration_date);
-        medicineTypeField = findViewById(R.id.activity_form_add_medicine_to_stock_medicine_type);
-        administrationTypeField = findViewById(R.id.activity_form_add_medicine_to_stock_administration_type);
-        photoView = findViewById(R.id.activity_form_add_medicine_to_stock_photo);
-        saveButton = findViewById(R.id.button_save);
+        bindFields();
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -61,11 +44,25 @@ public class FormEditMedicineActivity extends AppCompatActivity {
         }
 
         saveButton.setOnClickListener(v -> {
-            Medicine updatedMedicine = createMedicineFromFields();
-            if (validateFields(updatedMedicine)) {
-                saveMedicine(updatedMedicine);
-            }
+            Medicine updatedMedicine = getMedicineFromFields();
+            if (validateFields(updatedMedicine)) saveMedicine(updatedMedicine);
         });
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) setSupportActionBar(toolbar);
+    }
+
+    private void bindFields() {
+        nameField = findViewById(R.id.activity_form_add_medicine_to_stock_name);
+        quantityField = findViewById(R.id.activity_form_add_medicine_to_stock_quantity_stock);
+        quantityUnitField = findViewById(R.id.activity_form_add_medicine_to_stock_medicine_unit);
+        expirationDateField = findViewById(R.id.activity_form_add_medicine_to_stock_expiration_date);
+        medicineTypeField = findViewById(R.id.activity_form_add_medicine_to_stock_medicine_type);
+        administrationTypeField = findViewById(R.id.activity_form_add_medicine_to_stock_administration_type);
+        photoView = findViewById(R.id.activity_form_add_medicine_to_stock_photo);
+        saveButton = findViewById(R.id.button_save);
     }
 
     private void loadMedicineForEdit(int medicineId) {
@@ -82,35 +79,30 @@ public class FormEditMedicineActivity extends AppCompatActivity {
             nameField.setText(medicine.getName());
             quantityField.setText(medicine.getQuantity());
             expirationDateField.setText(medicine.getExpiration_date());
-
-            if (quantityUnitField.getAdapter() == null) {
-                String[] doseUnits = getResources().getStringArray(R.array.dose_units);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doseUnits);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                quantityUnitField.setAdapter(adapter);
-            }
-            if (medicineTypeField.getAdapter() == null) {
-                String[] medicineTypes = getResources().getStringArray(R.array.medicine_types);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, medicineTypes);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                medicineTypeField.setAdapter(adapter);
-            }
-            if (administrationTypeField.getAdapter() == null) {
-                String[] administrationTypes = getResources().getStringArray(R.array.administration_types);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, administrationTypes);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                administrationTypeField.setAdapter(adapter);
-            }
-
-            var unit = medicine.getMedicine_unit();
-
-            setSpinnerSelection(quantityUnitField, unit);
+            setupSpinnersIfNeeded();
+            setSpinnerSelection(quantityUnitField, medicine.getMedicine_unit());
             setSpinnerSelection(medicineTypeField, medicine.getType());
             setSpinnerSelection(administrationTypeField, medicine.getAdministration_type());
             if (!TextUtils.isEmpty(medicine.getPhotoPath())) {
                 photoView.setImageBitmap(BitmapFactory.decodeFile(medicine.getPhotoPath()));
                 currentPhotoPath = medicine.getPhotoPath();
             }
+        }
+    }
+
+    private void setupSpinnersIfNeeded() {
+        setupSpinnerIfNeeded(quantityUnitField, R.array.dose_units);
+        setupSpinnerIfNeeded(medicineTypeField, R.array.medicine_types);
+        setupSpinnerIfNeeded(administrationTypeField, R.array.administration_types);
+    }
+
+    private void setupSpinnerIfNeeded(Spinner spinner, int arrayResId) {
+        if (spinner.getAdapter() == null) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_spinner_item,
+                    getResources().getStringArray(arrayResId));
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
         }
     }
 
@@ -126,15 +118,15 @@ public class FormEditMedicineActivity extends AppCompatActivity {
         }
     }
 
-    private Medicine createMedicineFromFields() {
-        String name = nameField.getText().toString();
-        String quantity = quantityField.getText().toString();
-        String quantityUnit = quantityUnitField.getSelectedItem().toString();
-        String expirationDate = expirationDateField.getText().toString();
-        String medicineType = medicineTypeField.getSelectedItem().toString();
-        String administrationType = administrationTypeField.getSelectedItem().toString();
-
-        Medicine medicine = new Medicine(name, quantity, quantityUnit, expirationDate, administrationType, medicineType);
+    private Medicine getMedicineFromFields() {
+        Medicine medicine = new Medicine(
+                nameField.getText().toString(),
+                quantityField.getText().toString(),
+                quantityUnitField.getSelectedItem().toString(),
+                expirationDateField.getText().toString(),
+                medicineTypeField.getSelectedItem().toString(),
+                administrationTypeField.getSelectedItem().toString()
+        );
         medicine.setId(editingMedicineId);
         medicine.setPhotoPath(currentPhotoPath);
         return medicine;
@@ -154,14 +146,10 @@ public class FormEditMedicineActivity extends AppCompatActivity {
         try {
             MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
             db.medicineDAO().update(medicine);
-
-            MedicinesViewModel viewModel = new ViewModelProvider(this).get(MedicinesViewModel.class);
-            viewModel.loadMedicines(db.medicineDAO());
-
+            new ViewModelProvider(this).get(MedicinesViewModel.class).loadMedicines(db.medicineDAO());
             setResult(RESULT_OK);
             finish();
         } catch (Exception e) {
-            e.printStackTrace();
             Toast.makeText(this, getString(R.string.error_save_medicine_try_again), Toast.LENGTH_LONG).show();
         }
     }

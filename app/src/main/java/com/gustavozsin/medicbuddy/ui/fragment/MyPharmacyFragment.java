@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -36,10 +35,8 @@ public class MyPharmacyFragment extends Fragment {
         binding = FragmentMyPharmacyBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        adapter = new MedicineListAdapter(requireContext(), () -> {
-            new ViewModelProvider(requireActivity()).get(MedicinesViewModel.class)
-                    .loadMedicines(MedicBuddyDatabase.getInstance(requireContext()).medicineDAO());
-        });
+        adapter = new MedicineListAdapter(requireContext(), () -> new ViewModelProvider(requireActivity()).get(MedicinesViewModel.class)
+                .loadMedicines(MedicBuddyDatabase.getInstance(requireContext()).medicineDAO()));
         binding.fragmentMyPharmacyListMedicines.setAdapter(adapter);
 
         medicinesViewModel.getMedicines().observe(getViewLifecycleOwner(), medicinesList -> {
@@ -49,12 +46,7 @@ public class MyPharmacyFragment extends Fragment {
 
         medicinesViewModel.loadMedicines(MedicBuddyDatabase.getInstance(requireContext()).medicineDAO());
 
-        binding.fragmentMyPharmacyButtonAddMedicine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(requireContext(), FormAddMedicineToStockActivity.class));
-            }
-        });
+        binding.fragmentMyPharmacyButtonAddMedicine.setOnClickListener(v -> startActivity(new Intent(requireContext(), FormAddMedicineToStockActivity.class)));
 
         // Esconde o FAB principal se existir na activity
         View fab = getActivity().findViewById(R.id.app_bar_main_fab_new_medicine);

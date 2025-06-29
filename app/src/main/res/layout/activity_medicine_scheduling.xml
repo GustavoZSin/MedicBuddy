@@ -86,7 +86,7 @@
                 android:padding="12dp"
                 android:textSize="15sp"
                 android:textColor="@color/primaryText"
-                android:backgroundTint="@color/primary" />
+                android:backgroundTint="@color/primary2" />
 
             <!-- Unidade da Dose -->
             <TextView
@@ -128,11 +128,13 @@
                 android:layout_height="48dp"
                 android:hint="26/05/2025"
                 android:background="@drawable/edit_text_background"
-                android:inputType="date"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"
                 android:padding="12dp"
                 android:textSize="15sp"
                 android:textColor="@color/primaryText"
-                android:backgroundTint="@color/primary" />
+                android:backgroundTint="@color/primary2" />
 
             <!-- Frequência -->
             <TextView
@@ -174,17 +176,19 @@
                 android:layout_height="48dp"
                 android:hint="08:00"
                 android:background="@drawable/edit_text_background"
-                android:inputType="datetime"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="true"
                 android:padding="12dp"
                 android:textSize="15sp"
                 android:textColor="@color/primaryText"
-                android:backgroundTint="@color/primary" />
+                android:backgroundTint="@color/primary2" />
 
             <!-- Duração do Tratamento -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Duration of treatment:"
+                android:text="@string/duration_of_treatment"
                 android:layout_marginTop="16dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -195,18 +199,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/edit_text_background"
-                android:hint="Ex: 7"
+                android:hint="@string/ex_duration_of_treatment"
                 android:inputType="number"
                 android:padding="12dp"
                 android:textSize="15sp"
                 android:textColor="@color/primaryText"
-                android:backgroundTint="@color/primary" />
+                android:backgroundTint="@color/primary2" />
 
             <!-- Fim do Tratamento -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="End of treatment:"
+                android:text="@string/end_of_treatment"
                 android:layout_marginTop="16dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -222,9 +226,10 @@
                 android:textSize="15sp"
                 android:textColor="@color/primaryText"
                 android:focusable="false"
+                android:textIsSelectable="false"
                 android:clickable="false"
                 android:inputType="none"
-                android:backgroundTint="@color/primary" />
+                android:backgroundTint="@color/primary2" />
 
             <!-- Botão -->
             <Button

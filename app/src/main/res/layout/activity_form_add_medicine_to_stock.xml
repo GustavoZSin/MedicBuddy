@@ -62,7 +62,7 @@
                 android:padding="12dp"
                 android:textSize="15sp"
                 android:textColor="@color/primaryText"
-                android:backgroundTint="@color/primary" />
+                android:backgroundTint="@color/primary2" />
 
             <!-- Quantidade de Estoque -->
             <TextView
@@ -92,7 +92,7 @@
                     android:padding="12dp"
                     android:textSize="15sp"
                     android:textColor="@color/primaryText"
-                    android:backgroundTint="@color/primary" />
+                    android:backgroundTint="@color/primary2" />
             </LinearLayout>
 
             <!-- Tipo da Unidade do Remédio -->
@@ -133,7 +133,7 @@
                 android:id="@+id/activity_form_add_medicine_to_stock_expiration_date"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="26/05/2025"
+                android:hint="01/01/2025"
                 android:background="@drawable/edit_text_background"
                 android:clickable="true"
                 android:focusable="false"
@@ -141,7 +141,7 @@
                 android:padding="12dp"
                 android:textSize="15sp"
                 android:textColor="@color/primaryText"
-                android:backgroundTint="@color/primary" />
+                android:backgroundTint="@color/primary2" />
 
             <!-- Tipo de Medicamento -->
             <TextView

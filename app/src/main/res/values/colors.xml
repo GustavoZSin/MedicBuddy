@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Paleta principal -->
-    <color name="primary">#1976D2</color>
+    <color name="primary">#1A84ED</color>
     <color name="primaryDark">#115293</color>
     <color name="primaryLight">#63A4FF</color>
     <color name="onPrimary">#FFFFFF</color>
@@ -26,4 +26,5 @@
     <!-- Outros -->
     <color name="divider">#BDBDBD</color>
     <color name="hint">#9E9E9E</color>
+    <color name="primary2">#58ACFF</color>
 </resources>

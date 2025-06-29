@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -19,8 +18,6 @@ public class SchedulingAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("ALARM", "BroadcastReceiver disparado: chegou o horário do remédio");
-
         String medicineName = intent.getStringExtra("medicine_name");
         String dose = intent.getStringExtra("dose");
         String firstDoseHour = intent.getStringExtra("firstDoseHour");
