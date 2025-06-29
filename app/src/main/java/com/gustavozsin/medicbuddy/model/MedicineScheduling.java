@@ -13,16 +13,18 @@ public class MedicineScheduling {
     private String startDate;
     private String frequency;
     private String firstDoseHour;
+    private Integer durationDays;
 
     public MedicineScheduling() {}
 
-    public MedicineScheduling(String name, String dose, String doseUnit, String startDate, String frequency, String firstDoseHour) {
+    public MedicineScheduling(String name, String dose, String doseUnit, String startDate, String frequency, String firstDoseHour, Integer durationDays) {
         this.name = name;
         this.dose = dose;
         this.doseUnit = doseUnit;
         this.startDate = startDate;
         this.frequency = frequency;
         this.firstDoseHour = firstDoseHour;
+        this.durationDays = durationDays;
     }
 
     public String getName() {
@@ -54,6 +56,9 @@ public class MedicineScheduling {
         return firstDoseHour;
     }
     public void setFirstDoseHour(String firstDoseHour) { this.firstDoseHour = firstDoseHour; }
+
+    public Integer getDurationDays() { return durationDays; }
+    public void setDurationDays(Integer durationDays) { this.durationDays = durationDays; }
 
     @Override
     public String toString() {

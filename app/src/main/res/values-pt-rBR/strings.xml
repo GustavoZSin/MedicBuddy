@@ -27,11 +27,11 @@
         <item>Inglês</item>
     </string-array>
     <string-array name="dose_units">
-        <item>Comprimido</item>
-        <item>Tablete</item>
+        <item>Comprimido(s)</item>
+        <item>Tablete(s)</item>
         <item>mL</item>
-        <item>Gota</item>
-        <item>Injeção</item>
+        <item>Gota(s)</item>
+        <item>Injeção(ões)</item>
     </string-array>
     <string-array name="medicine_types">
         <item>Referência</item>
@@ -78,4 +78,6 @@
     <string name="new_medicine_scheduling">Novo Agendamento de Medicamento</string>
     <string name="new_medicine">Novo Medicamento</string>
     <string name="btn_save">Salvar</string>
+    <string name="show_future_schedulings">Próximos</string>
+    <string name="show_today_schedulings">Hoje</string>
 </resources>

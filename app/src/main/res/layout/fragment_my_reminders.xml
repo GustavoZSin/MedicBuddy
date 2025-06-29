@@ -36,6 +36,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_my_reminders_lbl_today" />
 
+    <!-- Botões para alternar entre agendamentos do dia e todos -->
+    <Button
+        android:id="@+id/fragment_my_reminders_btn_show_today"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/show_today_schedulings"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_my_reminders_lbl_clock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragment_my_reminders_btn_show_future"
+        android:layout_marginEnd="8dp"/>
+
+    <Button
+        android:id="@+id/fragment_my_reminders_btn_show_future"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/show_future_schedulings"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_my_reminders_lbl_clock"
+        app:layout_constraintStart_toEndOf="@id/fragment_my_reminders_btn_show_today"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"/>
+
     <!-- Lista de lembretes -->
     <ListView
         android:id="@+id/fragment_my_reminders_list_medicines"
@@ -51,6 +74,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_my_reminders_lbl_clock" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_my_reminders_btn_show_future" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

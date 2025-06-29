@@ -58,7 +58,13 @@ public class MedicineSchedulingListAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.item_medicine_scheduling_name);
         ImageButton delete = view.findViewById(R.id.item_medicine_scheduling_delete);
 
-        name.setText(scheduling.getName() + " - " + scheduling.getDose() + " " + scheduling.getDoseUnit());
+        // Exibe: data - horário - nome - quantidade unidade
+        String displayText = scheduling.getStartDate() + " - " +
+                scheduling.getFirstDoseHour() + " - " +
+                scheduling.getName() + " - " +
+                scheduling.getDose() + " " +
+                scheduling.getDoseUnit();
+        name.setText(displayText);
 
         delete.setOnClickListener(v -> {
             new AlertDialog.Builder(context)

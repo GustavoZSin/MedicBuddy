@@ -33,6 +33,8 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private EditText startDateField;
     private Spinner frequencyField;
     private EditText firstDoseHourField;
+    private EditText durationDaysField;
+    private EditText endDateTimeField;
     private Button saveButton;
 
     @Override
@@ -57,6 +59,8 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         startDateField = findViewById(R.id.activity_medicine_scheduling_medicine_start_date);
         frequencyField = findViewById(R.id.activity_medicine_scheduling_medicine_frequency);
         firstDoseHourField = findViewById(R.id.activity_medicine_scheduling_medicine_first_dose_hour);
+        durationDaysField = findViewById(R.id.activity_medicine_scheduling_duration_days);
+        endDateTimeField = findViewById(R.id.activity_medicine_scheduling_end_datetime);
         saveButton = findViewById(R.id.button_save);
     }
 
@@ -64,21 +68,114 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         setupNameSpinner();
         setupDoseUnitSpinner();
         setupFrequencySpinner();
+
+        // Atualiza o fim do tratamento ao mudar a frequência
+        frequencyField.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+                updateEndDateTimeField();
+            }
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
     }
 
     private void setupPickers() {
         setupDatePicker();
         setupTimePicker();
+
+        // Atualiza o fim do tratamento ao mudar data/hora de início
+        startDateField.setOnFocusChangeListener((v, hasFocus) -> { if (!hasFocus) updateEndDateTimeField(); });
+        firstDoseHourField.setOnFocusChangeListener((v, hasFocus) -> { if (!hasFocus) updateEndDateTimeField(); });
+        // Também ao mudar texto
+        startDateField.addTextChangedListener(new android.text.TextWatcher() {
+            public void afterTextChanged(android.text.Editable s) { updateEndDateTimeField(); }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        firstDoseHourField.addTextChangedListener(new android.text.TextWatcher() {
+            public void afterTextChanged(android.text.Editable s) { updateEndDateTimeField(); }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        // Atualiza ao mudar duração
+        durationDaysField.addTextChangedListener(new android.text.TextWatcher() {
+            public void afterTextChanged(android.text.Editable s) { updateEndDateTimeField(); }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
     }
 
     private void setupSaveButton() {
         saveButton.setOnClickListener(v -> {
             MedicineScheduling scheduling = createMedicineSchedulingFromFields();
             if (validateFields(scheduling)) {
-                saveScheduling(scheduling);
-                scheduleAlarm(scheduling);
+                generateAndSaveSchedulings(scheduling);
+                setResult(RESULT_OK);
+                finish();
             }
         });
+    }
+
+    private void generateAndSaveSchedulings(MedicineScheduling baseScheduling) {
+        try {
+            int durationDays = baseScheduling.getDurationDays() != null ? baseScheduling.getDurationDays() : 1;
+            int freqHours = getFrequencyHours(baseScheduling.getFrequency());
+            String[] dateParts = baseScheduling.getStartDate().split("/");
+            String[] timeParts = baseScheduling.getFirstDoseHour().split(":");
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(
+                Integer.parseInt(dateParts[2]),
+                Integer.parseInt(dateParts[1]) - 1,
+                Integer.parseInt(dateParts[0]),
+                Integer.parseInt(timeParts[0]),
+                Integer.parseInt(timeParts[1]),
+                0
+            );
+
+
+            int totalReminders = ((durationDays * 24) / freqHours);
+
+            Calendar endCal = (Calendar) cal.clone();
+            endCal.add(Calendar.DATE, durationDays);
+
+            MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(this);
+            MedicineSchedulingViewModel viewModel = new ViewModelProvider(this).get(MedicineSchedulingViewModel.class);
+
+            while (true) {
+                // Só agenda se estiver dentro do período do tratamento
+                Calendar compareCal = (Calendar) cal.clone();
+                compareCal.set(Calendar.SECOND, 0);
+                compareCal.set(Calendar.MILLISECOND, 0);
+
+                Calendar lastPossible = (Calendar) endCal.clone();
+                lastPossible.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeParts[0]));
+                lastPossible.set(Calendar.MINUTE, Integer.parseInt(timeParts[1]));
+                lastPossible.set(Calendar.SECOND, 0);
+                lastPossible.set(Calendar.MILLISECOND, 0);
+
+                if (compareCal.after(lastPossible)) break;
+
+                MedicineScheduling scheduling = new MedicineScheduling(
+                    baseScheduling.getName(),
+                    baseScheduling.getDose(),
+                    baseScheduling.getDoseUnit(),
+                    String.format("%02d/%02d/%04d", cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR)),
+                    baseScheduling.getFrequency(),
+                    String.format("%02d:%02d", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)),
+                    durationDays
+                );
+                db.medicineSchedulingDAO().insert(scheduling);
+                scheduleAlarm(scheduling);
+
+                cal.add(Calendar.HOUR_OF_DAY, freqHours);
+            }
+            viewModel.loadSchedulings(db.medicineSchedulingDAO());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, getString(R.string.error_save_scheduling_try_again), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setupNameSpinner() {
@@ -149,15 +246,20 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         String startDate = startDateField.getText().toString();
         String frequency = frequencyField.getSelectedItem().toString();
         String firstDoseHour = firstDoseHourField.getText().toString();
+        String auxDurationDays = durationDaysField.getText().toString();
+        Integer durationDays = auxDurationDays.isEmpty() ? 0 : Integer.parseInt(auxDurationDays);
 
-        return new MedicineScheduling(name, dose, doseUnit, startDate, frequency, firstDoseHour);
+        MedicineScheduling scheduling = new MedicineScheduling(name, dose, doseUnit, startDate, frequency, firstDoseHour, durationDays);
+        scheduling.setDurationDays(durationDays);
+        return scheduling;
     }
 
     private boolean validateFields(MedicineScheduling scheduling) {
         if (scheduling.getName().trim().isEmpty() ||
                 scheduling.getDose().trim().isEmpty() ||
                 scheduling.getStartDate().trim().isEmpty() ||
-                scheduling.getFirstDoseHour().trim().isEmpty()) {
+                scheduling.getFirstDoseHour().trim().isEmpty() ||
+                scheduling.getDurationDays() == null) {
             Toast.makeText(this, getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -244,4 +346,57 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         return false;
     }
     // </editor-fold>
+
+    private void updateEndDateTimeField() {
+        String startDate = startDateField.getText().toString();
+        String startTime = firstDoseHourField.getText().toString();
+        String durationStr = durationDaysField.getText().toString();
+        String frequency = frequencyField.getSelectedItem() != null ? frequencyField.getSelectedItem().toString() : "";
+
+        if (startDate.isEmpty() || startTime.isEmpty() || durationStr.isEmpty()) {
+            endDateTimeField.setText("");
+            return;
+        }
+
+        try {
+            String[] dateParts = startDate.split("/");
+            String[] timeParts = startTime.split(":");
+            int days = Integer.parseInt(durationStr);
+
+            java.util.Calendar cal = java.util.Calendar.getInstance();
+            cal.set(
+                Integer.parseInt(dateParts[2]),
+                Integer.parseInt(dateParts[1]) - 1,
+                Integer.parseInt(dateParts[0]),
+                Integer.parseInt(timeParts[0]),
+                Integer.parseInt(timeParts[1]),
+                0
+            );
+
+            int freqHours = getFrequencyHours(frequency);
+
+            // O último agendamento é no mesmo horário do dia (data início + dias)
+            cal.add(java.util.Calendar.DATE, days);
+
+            String endDate = String.format("%02d/%02d/%04d", cal.get(java.util.Calendar.DAY_OF_MONTH), cal.get(java.util.Calendar.MONTH) + 1, cal.get(java.util.Calendar.YEAR));
+            String endTime = String.format("%02d:%02d", cal.get(java.util.Calendar.HOUR_OF_DAY), cal.get(java.util.Calendar.MINUTE));
+            endDateTimeField.setText(endDate + " " + endTime);
+        } catch (Exception e) {
+            endDateTimeField.setText("");
+        }
+    }
+
+    private int getFrequencyHours(String frequency) {
+        // Ajuste conforme as opções do seu array frequencies
+        if (frequency == null) return 24;
+        frequency = frequency.toLowerCase();
+        if (frequency.contains("24") || frequency.contains("1 vez ao dia")) return 24;
+        if (frequency.contains("12")) return 12;
+        if (frequency.contains("8")) return 8;
+        if (frequency.contains("6")) return 6;
+        if (frequency.contains("4")) return 4;
+        if (frequency.contains("3")) return 3;
+        if (frequency.contains("2")) return 2;
+        return 24;
+    }
 }

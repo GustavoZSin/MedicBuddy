@@ -31,11 +31,11 @@
         <item>English</item>
     </string-array>
     <string-array name="dose_units">
-        <item>Pill</item>
-        <item>Tablet</item>
+        <item>Pill(s)</item>
+        <item>Tablet(s)</item>
         <item>mL</item>
-        <item>Drop</item>
-        <item>Injection</item>
+        <item>Drop(s)</item>
+        <item>Injection(s)</item>
     </string-array>
     <string-array name="medicine_types">
         <item>Reference</item>
@@ -82,4 +82,6 @@
     <string name="new_medicine_scheduling">New Medicine Scheduling</string>
     <string name="new_medicine">New Medicine</string>
     <string name="btn_save">Save</string>
+    <string name="show_future_schedulings">Upcoming</string>
+    <string name="show_today_schedulings">Today</string>
 </resources>
