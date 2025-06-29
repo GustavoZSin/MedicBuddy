@@ -51,7 +51,7 @@
         <item>A cada 6 horas</item>
         <item>A cada 8 horas</item>
         <item>A cada 12 horas</item>
-        <item>Uma vez ao dia</item>
+        <item>A cada 24 horas</item>
     </string-array>
     <string name="choose_language">Escolha o idioma do app</string>
     <string name="settings_chance_language">Mudar idioma</string>
@@ -80,4 +80,8 @@
     <string name="btn_save">Salvar</string>
     <string name="show_future_schedulings">Próximos</string>
     <string name="show_today_schedulings">Hoje</string>
+    <string name="take_photo">Tirar foto</string>
+    <string name="medicine_photo">Foto do medicamento</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_photo">Tire uma foto do medicamento</string>
+    <string name="mark_as_done">Marcar como concluído</string>
 </resources>

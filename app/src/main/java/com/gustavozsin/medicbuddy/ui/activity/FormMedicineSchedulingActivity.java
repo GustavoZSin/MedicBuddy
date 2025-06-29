@@ -303,7 +303,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
                 intent.putExtra("dose", scheduling.getDose() + " " + scheduling.getDoseUnit());
                 intent.putExtra("firstDoseHour", scheduling.getFirstDoseHour());
 
-                int requestCode = (int) System.currentTimeMillis();
+                int requestCode = getUniqueRequestCode(scheduling);
                 android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(
                         this, requestCode, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE
                 );
@@ -325,6 +325,11 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private int getUniqueRequestCode(MedicineScheduling scheduling) {
+        String key = scheduling.getName() + "_" + scheduling.getStartDate() + "_" + scheduling.getFirstDoseHour();
+        return key.hashCode();
     }
     private boolean isPermissionConfigured() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -387,10 +392,9 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     }
 
     private int getFrequencyHours(String frequency) {
-        // Ajuste conforme as opções do seu array frequencies
         if (frequency == null) return 24;
         frequency = frequency.toLowerCase();
-        if (frequency.contains("24") || frequency.contains("1 vez ao dia")) return 24;
+        if (frequency.contains("24")) return 24;
         if (frequency.contains("12")) return 12;
         if (frequency.contains("8")) return 8;
         if (frequency.contains("6")) return 6;

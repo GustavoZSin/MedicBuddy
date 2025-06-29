@@ -13,6 +13,7 @@ public class Medicine {
     private String expiration_date;
     private String administration_type;
     private String type;
+    private String photoPath;
 
     public Medicine(String name, String quantity, String medicine_unit, String expiration_date, String administration_type, String type) {
         this.name = name;
@@ -42,6 +43,9 @@ public class Medicine {
 
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
+
+    public String getPhotoPath() { return photoPath; }
+    public void setPhotoPath(String photoPath) { this.photoPath = photoPath; }
 
     public String getMedicineWithQuantity() {
         String name = this.name != null ? this.name : "";

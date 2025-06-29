@@ -14,11 +14,21 @@
         android:text="Nome do Agendamento" />
 
     <ImageButton
+        android:id="@+id/item_medicine_scheduling_done"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/mark_as_done"
+        android:src="@drawable/ic_done_square_unchecked"
+        android:scaleType="centerInside"
+        android:padding="4dp" />
+
+    <ImageButton
         android:id="@+id/item_medicine_scheduling_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_delete"
         android:contentDescription="@string/delete"
+        android:src="@android:drawable/ic_menu_delete"
         app:tint="#F44336" />
 </LinearLayout>

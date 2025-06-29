@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.gustavozsin.medicbuddy.model.MedicineScheduling;
 
@@ -22,4 +23,7 @@ public interface MedicineSchedulingDAO {
 
     @Delete
     void delete(MedicineScheduling scheduling);
+
+    @Update
+    void update(MedicineScheduling scheduling);
 }

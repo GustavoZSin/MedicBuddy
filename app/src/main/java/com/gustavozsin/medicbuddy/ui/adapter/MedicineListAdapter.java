@@ -2,11 +2,13 @@ package com.gustavozsin.medicbuddy.ui.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gustavozsin.medicbuddy.R;
@@ -57,8 +59,16 @@ public class MedicineListAdapter extends BaseAdapter {
 
         TextView name = view.findViewById(R.id.item_medicine_name);
         ImageButton delete = view.findViewById(R.id.item_medicine_delete);
+        ImageView photo = view.findViewById(R.id.item_medicine_photo);
 
         name.setText(medicine.getMedicineWithQuantity());
+
+        // Exibe a foto se houver, senão mostra o placeholder
+        if (medicine.getPhotoPath() != null && !medicine.getPhotoPath().isEmpty()) {
+            photo.setImageBitmap(BitmapFactory.decodeFile(medicine.getPhotoPath()));
+        } else {
+            photo.setImageResource(R.drawable.ic_medicine_placeholder);
+        }
 
         delete.setOnClickListener(v -> {
             new AlertDialog.Builder(context)

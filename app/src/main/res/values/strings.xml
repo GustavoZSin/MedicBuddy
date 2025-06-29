@@ -55,7 +55,7 @@
         <item>Every 6 hours</item>
         <item>Every 8 hours</item>
         <item>Every 12 hours</item>
-        <item>Once a day</item>
+        <item>Every 24 hours</item>
     </string-array>
     <string name="choose_language">Choose app language</string>
     <string name="settings_chance_language">Change language</string>
@@ -77,11 +77,15 @@
     <string name="notification_medicine_reminder_channel_desc">Notifications for scheduled medicine reminders</string>
     <string name="error_alarm_past_time">The scheduled date/time must be in the future.</string>
     <string name="error_alarm_exact_permission">Permission for exact alarms not granted. Enable it in settings.</string>
-    <string name="scheduling_channel_name">Agendamentos</string>
-    <string name="scheduling_channel_description">Notificações de agendamentos de medicamentos</string>
+    <string name="scheduling_channel_name">Schedulings</string>
+    <string name="scheduling_channel_description">Medication schedulings notifications</string>
     <string name="new_medicine_scheduling">New Medicine Scheduling</string>
     <string name="new_medicine">New Medicine</string>
     <string name="btn_save">Save</string>
     <string name="show_future_schedulings">Upcoming</string>
     <string name="show_today_schedulings">Today</string>
+    <string name="take_photo">Take a photo</string>
+    <string name="medicine_photo">Photo of the medicament</string>
+    <string name="activity_form_add_medicine_to_stock_lbl_photo">Add a medicine picture</string>
+    <string name="mark_as_done">Mark as completed</string>
 </resources>

@@ -53,6 +53,12 @@ public class MyPharmacyFragment extends Fragment {
             }
         });
 
+        // Esconde o FAB principal se existir na activity
+        View fab = getActivity().findViewById(R.id.app_bar_main_fab_new_medicine);
+        if (fab != null) {
+            fab.setVisibility(View.GONE);
+        }
+
         return root;
     }
 
@@ -66,6 +72,11 @@ public class MyPharmacyFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // Garante que o FAB volte a aparecer ao sair do fragmento
+        View fab = getActivity().findViewById(R.id.app_bar_main_fab_new_medicine);
+        if (fab != null) {
+            fab.setVisibility(View.VISIBLE);
+        }
         binding = null;
     }
 }

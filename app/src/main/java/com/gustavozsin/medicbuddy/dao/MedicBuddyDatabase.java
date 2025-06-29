@@ -11,7 +11,7 @@ import com.gustavozsin.medicbuddy.model.MedicineScheduling;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Medicine.class, MedicineScheduling.class}, version = 3, exportSchema = false)
+@Database(entities = {Medicine.class, MedicineScheduling.class}, version = 5, exportSchema = false)
 public abstract class MedicBuddyDatabase extends RoomDatabase {
     public abstract MedicineDAO medicineDAO();
     public abstract MedicineSchedulingDAO medicineSchedulingDAO();

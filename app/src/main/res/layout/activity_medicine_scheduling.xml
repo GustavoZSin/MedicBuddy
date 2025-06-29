@@ -17,6 +17,15 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- TextView apenas para espaçamento -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <!-- Nome -->
         <TextView
             android:layout_width="match_parent"

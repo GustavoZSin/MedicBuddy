@@ -7,6 +7,15 @@
     android:gravity="center_vertical"
     android:padding="8dp">
 
+    <ImageView
+        android:id="@+id/item_medicine_photo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/edit_text_background"
+        android:contentDescription="@string/medicine_photo"
+        android:layout_marginEnd="12dp"/>
+
     <TextView
         android:id="@+id/item_medicine_name"
         android:layout_width="0dp"

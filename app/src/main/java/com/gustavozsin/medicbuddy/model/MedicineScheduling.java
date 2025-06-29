@@ -14,6 +14,7 @@ public class MedicineScheduling {
     private String frequency;
     private String firstDoseHour;
     private Integer durationDays;
+    private boolean done = false;
 
     public MedicineScheduling() {}
 
@@ -59,6 +60,9 @@ public class MedicineScheduling {
 
     public Integer getDurationDays() { return durationDays; }
     public void setDurationDays(Integer durationDays) { this.durationDays = durationDays; }
+
+    public boolean isDone() { return done; }
+    public void setDone(boolean done) { this.done = done; }
 
     @Override
     public String toString() {
