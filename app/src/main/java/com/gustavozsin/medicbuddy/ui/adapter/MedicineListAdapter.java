@@ -2,6 +2,7 @@ package com.gustavozsin.medicbuddy.ui.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
 import com.gustavozsin.medicbuddy.model.Medicine;
+import com.gustavozsin.medicbuddy.ui.activity.FormAddMedicineToStockActivity;
 
 import java.util.List;
 
@@ -59,6 +61,7 @@ public class MedicineListAdapter extends BaseAdapter {
 
         TextView name = view.findViewById(R.id.item_medicine_name);
         ImageButton delete = view.findViewById(R.id.item_medicine_delete);
+        ImageButton edit = view.findViewById(R.id.item_medicine_edit);
         ImageView photo = view.findViewById(R.id.item_medicine_photo);
 
         name.setText(medicine.getMedicineWithQuantity());
@@ -75,11 +78,20 @@ public class MedicineListAdapter extends BaseAdapter {
                     .setTitle(R.string.delete)
                     .setMessage(R.string.confirm_delete_medicine)
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        MedicBuddyDatabase.getInstance(context).medicineDAO().delete(medicine);
+                        MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(context);
+                        // Exclui todos os agendamentos relacionados ao medicamento
+                        db.medicineDAO().deleteAllSchedulingsForMedicine(medicine.getName());
+                        db.medicineDAO().delete(medicine);
                         if (onDataChanged != null) onDataChanged.run();
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .show();
+        });
+
+        edit.setOnClickListener(v -> {
+            Intent intent = new Intent(context, com.gustavozsin.medicbuddy.ui.activity.FormEditMedicineActivity.class);
+            intent.putExtra("medicine_id", medicine.getId());
+            context.startActivity(intent);
         });
 
         return view;

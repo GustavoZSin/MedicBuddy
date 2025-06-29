@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
@@ -83,8 +84,34 @@ public class MedicineSchedulingListAdapter extends BaseAdapter {
 
         done.setOnClickListener(v -> {
             boolean wasDone = scheduling.isDone();
-            scheduling.setDone(!wasDone);
             MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(context);
+            Medicine medicine = db.medicineDAO().getByName(scheduling.getName());
+
+            if (!wasDone) {
+                // Vai marcar como concluído
+                if (medicine != null) {
+                    double currentQty = 0;
+                    double doseQty = 0;
+                    try {
+                        currentQty = Double.parseDouble(medicine.getQuantity());
+                        doseQty = Double.parseDouble(scheduling.getDose());
+                    } catch (Exception ignored) {}
+
+                    if (currentQty == 0) {
+                        Toast.makeText(context, context.getString(R.string.cannot_complete_no_stock), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    if (currentQty == 1) {
+                        Toast.makeText(context, context.getString(R.string.need_to_buy_medicine), Toast.LENGTH_LONG).show();
+                    }
+                    if (currentQty < doseQty) {
+                        Toast.makeText(context, context.getString(R.string.cannot_complete_no_stock), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+            }
+
+            scheduling.setDone(!wasDone);
             db.medicineSchedulingDAO().update(scheduling);
 
             if (!wasDone) {

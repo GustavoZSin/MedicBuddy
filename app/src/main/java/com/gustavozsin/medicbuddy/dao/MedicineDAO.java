@@ -29,4 +29,7 @@ public interface MedicineDAO {
 
     @Delete
     void delete(Medicine medicine);
+
+    @Query("DELETE FROM MedicineScheduling WHERE name = :medicineName")
+    void deleteAllSchedulingsForMedicine(String medicineName);
 }

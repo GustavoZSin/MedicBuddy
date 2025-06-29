@@ -25,14 +25,14 @@
         android:textSize="16sp"
         android:textColor="#212121" />
 
-    <!--<ImageButton
+    <ImageButton
         android:id="@+id/item_medicine_edit"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@android:drawable/ic_menu_edit"
         android:contentDescription="@string/edit"
-        android:tint="#2196F3" />-->
+        android:layout_marginEnd="8dp"/>
 
     <ImageButton
         android:id="@+id/item_medicine_delete"

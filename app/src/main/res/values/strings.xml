@@ -88,4 +88,7 @@
     <string name="medicine_photo">Photo of the medicament</string>
     <string name="activity_form_add_medicine_to_stock_lbl_photo">Add a medicine picture</string>
     <string name="mark_as_done">Mark as completed</string>
+    <string name="need_to_buy_medicine">It is necessary to buy the medicine again.</string>
+    <string name="cannot_complete_no_stock">Cannot complete: insufficient stock.</string>
+    <string name="edit_medicine">Edit Medicine</string>
 </resources>

@@ -84,4 +84,7 @@
     <string name="medicine_photo">Foto do medicamento</string>
     <string name="activity_form_add_medicine_to_stock_lbl_photo">Tire uma foto do medicamento</string>
     <string name="mark_as_done">Marcar como concluído</string>
+    <string name="need_to_buy_medicine">É necessário comprar o medicamento novamente.</string>
+    <string name="cannot_complete_no_stock">Não é possível concluir: estoque insuficiente.</string>
+    <string name="edit_medicine">Editar Medicamento</string>
 </resources>
