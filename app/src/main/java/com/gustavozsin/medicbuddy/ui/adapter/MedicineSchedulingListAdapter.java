@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.gustavozsin.medicbuddy.R;
 import com.gustavozsin.medicbuddy.dao.MedicBuddyDatabase;
+import com.gustavozsin.medicbuddy.model.Medicine;
 import com.gustavozsin.medicbuddy.model.MedicineScheduling;
 
 import java.util.List;
@@ -83,14 +84,17 @@ public class MedicineSchedulingListAdapter extends BaseAdapter {
         done.setOnClickListener(v -> {
             boolean wasDone = scheduling.isDone();
             scheduling.setDone(!wasDone);
-            MedicBuddyDatabase.getInstance(context).medicineSchedulingDAO().update(scheduling);
+            MedicBuddyDatabase db = MedicBuddyDatabase.getInstance(context);
+            db.medicineSchedulingDAO().update(scheduling);
 
             if (!wasDone) {
-                // Marcou como concluído: cancelar alarme
+                // Marcou como concluído: cancelar alarme e subtrair do estoque
                 cancelAlarm(context, scheduling);
+                subtractMedicineFromStock(db, scheduling);
             } else {
-                // Marcou como não concluído: reagendar alarme
+                // Marcou como não concluído: reagendar alarme e devolver ao estoque
                 scheduleAlarm(context, scheduling);
+                addMedicineToStock(db, scheduling);
             }
 
             notifyDataSetChanged();
@@ -180,5 +184,32 @@ public class MedicineSchedulingListAdapter extends BaseAdapter {
         // Gera um código único para o PendingIntent baseado nos dados do agendamento
         String key = scheduling.getName() + "_" + scheduling.getStartDate() + "_" + scheduling.getFirstDoseHour();
         return key.hashCode();
+    }
+
+    private void subtractMedicineFromStock(MedicBuddyDatabase db, MedicineScheduling scheduling) {
+        Medicine medicine = db.medicineDAO().getByName(scheduling.getName());
+        if (medicine != null) {
+            try {
+                double currentQty = Double.parseDouble(medicine.getQuantity());
+                double doseQty = Double.parseDouble(scheduling.getDose());
+                double newQty = currentQty - doseQty;
+                if (newQty < 0) newQty = 0;
+                medicine.setQuantity(String.valueOf(newQty));
+                db.medicineDAO().update(medicine);
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void addMedicineToStock(MedicBuddyDatabase db, MedicineScheduling scheduling) {
+        Medicine medicine = db.medicineDAO().getByName(scheduling.getName());
+        if (medicine != null) {
+            try {
+                double currentQty = Double.parseDouble(medicine.getQuantity());
+                double doseQty = Double.parseDouble(scheduling.getDose());
+                double newQty = currentQty + doseQty;
+                medicine.setQuantity(String.valueOf(newQty));
+                db.medicineDAO().update(medicine);
+            } catch (Exception ignored) {}
+        }
     }
 }
