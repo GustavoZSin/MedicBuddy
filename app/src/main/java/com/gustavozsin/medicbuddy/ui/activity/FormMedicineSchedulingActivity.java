@@ -32,7 +32,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private EditText medicineDoseField;
     private Spinner doseUnitField;
     private EditText startDateField;
-    private Spinner frequencyField;
+    private EditText frequencyField; // agora EditText
     private EditText firstDoseHourField;
     private EditText durationDaysField;
     private EditText endDateTimeField;
@@ -62,7 +62,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         medicineDoseField = findViewById(R.id.activity_medicine_scheduling_medicine_dose);
         doseUnitField = findViewById(R.id.activity_medicine_scheduling_medicine_dose_unit);
         startDateField = findViewById(R.id.activity_medicine_scheduling_medicine_start_date);
-        frequencyField = findViewById(R.id.activity_medicine_scheduling_medicine_frequency);
+        frequencyField = findViewById(R.id.activity_medicine_scheduling_medicine_frequency); // agora EditText
         firstDoseHourField = findViewById(R.id.activity_medicine_scheduling_medicine_first_dose_hour);
         durationDaysField = findViewById(R.id.activity_medicine_scheduling_duration_days);
         endDateTimeField = findViewById(R.id.activity_medicine_scheduling_end_datetime);
@@ -72,15 +72,13 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     private void setupSpinners() {
         setupNameSpinner();
         setupDoseUnitSpinner();
-        setupFrequencySpinner();
+        // Removido: setupFrequencySpinner();
 
-        frequencyField.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
-                updateEndDateTimeField();
-            }
-            @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        // Removido: frequencyField.setOnItemSelectedListener...
+        frequencyField.addTextChangedListener(new android.text.TextWatcher() {
+            public void afterTextChanged(android.text.Editable s) { updateEndDateTimeField(); }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
     }
 
@@ -182,13 +180,6 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         doseUnitField.setAdapter(adapter);
     }
 
-    private void setupFrequencySpinner() {
-        String[] frequencies = getResources().getStringArray(R.array.frequencies);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, frequencies);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        frequencyField.setAdapter(adapter);
-    }
-
     private void setupDatePicker() {
         startDateField.setOnClickListener(v -> showDatePicker());
         startDateField.setOnFocusChangeListener((v, hasFocus) -> {
@@ -278,16 +269,13 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     }
 
     private int getFrequencyHours(String frequency) {
-        if (frequency == null) return 24;
-        frequency = frequency.toLowerCase();
-        if (frequency.contains("24")) return 24;
-        if (frequency.contains("12")) return 12;
-        if (frequency.contains("8")) return 8;
-        if (frequency.contains("6")) return 6;
-        if (frequency.contains("4")) return 4;
-        if (frequency.contains("3")) return 3;
-        if (frequency.contains("2")) return 2;
-        return 24;
+        // frequency agora é o valor digitado no EditText
+        try {
+            if (frequency == null || frequency.trim().isEmpty()) return 24;
+            return Integer.parseInt(frequency.trim());
+        } catch (NumberFormatException e) {
+            return 24;
+        }
     }
     // </editor-fold>
 
@@ -299,7 +287,7 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
         String doseUnit = doseUnitField.getSelectedItem().toString();
 
         String startDate = startDateField.getText().toString();
-        String frequency = frequencyField.getSelectedItem().toString();
+        String frequency = frequencyField.getText().toString(); // agora EditText
         String firstDoseHour = firstDoseHourField.getText().toString();
 
         String auxDurationDays = durationDaysField.getText().toString();
@@ -315,8 +303,17 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
                 scheduling.getDose().trim().isEmpty() ||
                 scheduling.getStartDate().trim().isEmpty() ||
                 scheduling.getFirstDoseHour().trim().isEmpty() ||
-                scheduling.getDurationDays() == null) {
+                scheduling.getDurationDays() == null ||
+                scheduling.getFrequency().trim().isEmpty()) {
             Toast.makeText(this, getString(R.string.fill_in_all_required_fields), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        // Frequência deve ser um inteiro positivo
+        try {
+            int freq = Integer.parseInt(scheduling.getFrequency().trim());
+            if (freq <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, getString(R.string.invalid_frequency), Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

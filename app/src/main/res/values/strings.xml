@@ -23,7 +23,7 @@
     <string name="activity_form_add_medicine_scheduling_lbl_dose">Dose</string>
     <string name="activity_form_add_medicine_scheduling_lbl_dose_unit">Dose Unit</string>
     <string name="activity_form_add_medicine_scheduling_lbl_start_date">Start Date</string>
-    <string name="activity_form_add_medicine_scheduling_lbl_frequency">Frequency</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_frequency">Frequency (in hours):</string>
     <string name="activity_form_add_medicine_scheduling_lbl_first_dose_hour">First Hour Dose</string>
     <string name="activity_form_add_medicine_to_stock_lbl_unit_stock">Unit Type</string>
     <string-array name="languages">
@@ -94,4 +94,5 @@
     <string name="end_of_treatment">End of treatment:</string>
     <string name="ex_duration_of_treatment">E.g: 7</string>
     <string name="duration_of_treatment">Duration of treatment (days):</string>
+    <string name="invalid_frequency">Enter a valid frequency in hours (integer &gt; 0)</string>
 </resources>

@@ -146,19 +146,17 @@
                 android:textStyle="bold"
                 android:textColor="@color/primaryText" />
 
-            <RelativeLayout
+            <EditText
+                android:id="@+id/activity_medicine_scheduling_medicine_frequency"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:background="@drawable/edit_text_background"
-                android:padding="8dp">
-
-                <Spinner
-                    android:id="@+id/activity_medicine_scheduling_medicine_frequency"
-                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:backgroundTint="@color/primary" />
-            </RelativeLayout>
+                android:hint="Ex: 8"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textSize="15sp"
+                android:textColor="@color/primaryText"
+                android:backgroundTint="@color/primary2" />
 
             <!-- Hora da Primeira Dose -->
             <TextView

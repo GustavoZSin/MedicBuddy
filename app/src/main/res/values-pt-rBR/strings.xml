@@ -19,7 +19,7 @@
     <string name="activity_form_add_medicine_scheduling_lbl_dose">Dose</string>
     <string name="activity_form_add_medicine_scheduling_lbl_dose_unit">Unidade da Dose</string>
     <string name="activity_form_add_medicine_scheduling_lbl_start_date">Data de Início</string>
-    <string name="activity_form_add_medicine_scheduling_lbl_frequency">Frequência</string>
+    <string name="activity_form_add_medicine_scheduling_lbl_frequency">Frequência (em horas):</string>
     <string name="activity_form_add_medicine_scheduling_lbl_first_dose_hour">Hora da Primeira Dose</string>
     <string name="activity_form_add_medicine_to_stock_lbl_unit_stock">Tipo da Unidade</string>
     <string-array name="languages">
@@ -90,4 +90,5 @@
     <string name="end_of_treatment">Fim do tratamento:</string>
     <string name="ex_duration_of_treatment">Ex: 7</string>
     <string name="duration_of_treatment">Duração do tratamento (dias):</string>
+    <string name="invalid_frequency">Informe uma frequência válida em horas (inteiro &gt; 0)</string>
 </resources>
