@@ -15,7 +15,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/primary"
+            app:titleTextColor="@color/onPrimary"
             app:popupTheme="@style/Theme.MedicBuddy.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -30,6 +31,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/add_medicine"
-        app:srcCompat="@drawable/ic_add_medicine" />
+        app:srcCompat="@drawable/ic_add_medicine"
+        app:backgroundTint="@color/primary" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

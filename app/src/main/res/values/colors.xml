@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Paleta principal -->
+    <color name="primary">#1976D2</color>
+    <color name="primaryDark">#115293</color>
+    <color name="primaryLight">#63A4FF</color>
+    <color name="onPrimary">#FFFFFF</color>
+
+    <color name="secondary">#26A69A</color>
+    <color name="secondaryDark">#00766C</color>
+    <color name="secondaryLight">#64D8CB</color>
+    <color name="onSecondary">#FFFFFF</color>
+
+    <!-- Fundo e cartões -->
+    <color name="background">#F5F5F5</color>
+    <color name="cardBackground">#FFFFFF</color>
+
+    <!-- Texto -->
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#757575</color>
+    <color name="lightBlueText">#63A4FF</color>
+
+    <!-- Erro -->
+    <color name="error">#F44336</color>
+
+    <!-- Outros -->
+    <color name="divider">#BDBDBD</color>
+    <color name="hint">#9E9E9E</color>
 </resources>

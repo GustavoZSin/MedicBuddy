@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@color/cardBackground">
 
     <ImageView
         android:id="@+id/item_medicine_photo"
@@ -23,7 +24,7 @@
         android:layout_weight="1"
         android:text="@string/medicament_name"
         android:textSize="16sp"
-        android:textColor="#212121" />
+        android:textColor="@color/primaryText" />
 
     <ImageButton
         android:id="@+id/item_medicine_edit"
@@ -41,5 +42,5 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@android:drawable/ic_menu_delete"
         android:contentDescription="@string/delete"
-        app:tint="#F44336" />
+        app:tint="@color/error" />
 </LinearLayout>

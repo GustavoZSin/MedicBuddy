@@ -15,6 +15,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import android.content.SharedPreferences;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.gustavozsin.medicbuddy.R;
@@ -34,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Padroniza as cores do app bar e do FAB
+        binding.appBarMain.toolbar.setBackgroundColor(getResources().getColor(R.color.primary));
+        binding.appBarMain.appBarMainFabNewMedicine.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.primary))
+        );
+        binding.appBarMain.appBarMainFabNewMedicine.setColorFilter(
+                getResources().getColor(R.color.onPrimary)
+        );
 
         configureFabNewMedicineScheduling();
         configureDrawer();
@@ -108,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showLanguageDialog() {
         String[] languages = getResources().getStringArray(R.array.languages);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MedicBuddy_LightDialog);
         builder.setTitle(getResources().getString(R.string.choose_language))
             .setItems(languages, (dialog, which) -> {
                 if (which == 0) {
@@ -117,7 +129,35 @@ public class MainActivity extends AppCompatActivity {
                     setLocale("en");
                 }
             });
-        builder.create().show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Aplica cor azul claro ao texto dos itens e título
+        int blue = getResources().getColor(R.color.lightBlueText, getTheme());
+        int titleId = getResources().getIdentifier("alertTitle", "id", "android");
+        if (titleId > 0) {
+            TextView title = dialog.findViewById(titleId);
+            if (title != null) title.setTextColor(blue);
+        }
+        ListView listView = dialog.getListView();
+        if (listView != null) {
+            for (int i = 0; i < listView.getChildCount(); i++) {
+                View v = listView.getChildAt(i);
+                if (v instanceof TextView) {
+                    ((TextView) v).setTextColor(blue);
+                }
+            }
+            listView.setAdapter(new android.widget.ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, languages) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View v = super.getView(position, convertView, parent);
+                    if (v instanceof TextView) {
+                        ((TextView) v).setTextColor(blue);
+                    }
+                    return v;
+                }
+            });
+        }
     }
 
     private void setLocale(String lang) {

@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gustavozsin.medicbuddy.R;
@@ -41,6 +42,12 @@ public class FormMedicineSchedulingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_scheduling);
+
+        // Suporte à Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
 
         String newMedicineSchedulingTitle = getString(R.string.new_medicine_scheduling);
         setTitle(newMedicineSchedulingTitle);

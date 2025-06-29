@@ -1,207 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#FDFDFD"
-        android:backgroundTint="#FDFDFD"
-        android:clipToPadding="false"
-        android:layout_margin="8dp"
-        android:elevation="4dp"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        app:titleTextColor="@color/onPrimary"
+        app:popupTheme="@style/Theme.MedicBuddy.PopupOverlay" />
 
-        <!-- TextView apenas para espaçamento -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- Nome -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_name"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/activity_form_add_medicine_to_stock_name"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Paracetamol"
-            android:background="@drawable/edit_text_background"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            android:textSize="15sp" />
-
-        <!-- Quantidade de Estoque -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_quantity_stock"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+    <ScrollView
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        android:background="@color/background">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:background="@color/cardBackground"
+            android:backgroundTint="@color/cardBackground"
+            android:clipToPadding="false"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- TextView apenas para espaçamento -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Nome -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_form_add_medicine_to_stock_lbl_name"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText" />
 
             <EditText
-                android:id="@+id/activity_form_add_medicine_to_stock_quantity_stock"
+                android:id="@+id/activity_form_add_medicine_to_stock_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_weight="1"
+                android:hint="Paracetamol"
                 android:background="@drawable/edit_text_background"
-                android:hint="1"
-                android:inputType="numberDecimal"
+                android:inputType="textPersonName"
                 android:padding="12dp"
-                android:textSize="15sp" />
-        </LinearLayout>
+                android:textSize="15sp"
+                android:textColor="@color/primaryText"
+                android:backgroundTint="@color/primary" />
 
-        <!-- Tipo da Unidade do Remédio -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_unit_stock"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
-            android:padding="8dp">
-
-            <Spinner
-                android:id="@+id/activity_form_add_medicine_to_stock_medicine_unit"
-                style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            <!-- Quantidade de Estoque -->
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="32dp" />
-        </RelativeLayout>
-
-        <!-- Data de Validade -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_expiration_date"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/activity_form_add_medicine_to_stock_expiration_date"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="26/05/2025"
-            android:background="@drawable/edit_text_background"
-            android:clickable="true"
-            android:focusable="false"
-            android:inputType="date"
-            android:padding="12dp"
-            android:textSize="15sp" />
-
-        <!-- Tipo de Medicamento -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_medicine_type"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
-            android:padding="8dp">
-
-            <Spinner
-                android:id="@+id/activity_form_add_medicine_to_stock_medicine_type"
-                style="@style/Widget.AppCompat.DropDownItem.Spinner"
-                android:layout_width="match_parent"
-                android:layout_height="32dp" />
-        </RelativeLayout>
-
-        <!-- Forma de Administração -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_administration_type"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
-            android:padding="8dp">
-
-            <Spinner
-                android:id="@+id/activity_form_add_medicine_to_stock_administration_type"
-                style="@style/Widget.AppCompat.DropDownItem.Spinner"
-                android:layout_width="match_parent"
-                android:layout_height="32dp" />
-        </RelativeLayout>
-
-        <!-- Foto do Medicamento -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_form_add_medicine_to_stock_lbl_photo"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp">
-
-            <ImageView
-                android:id="@+id/activity_form_add_medicine_to_stock_photo"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/edit_text_background"
-                android:contentDescription="@string/medicine_photo"
-                android:scaleType="centerCrop" />
-
-            <Button
-                android:id="@+id/activity_form_add_medicine_to_stock_btn_photo"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/take_photo"
-                android:layout_marginStart="16dp"/>
-        </LinearLayout>
+                android:text="@string/activity_form_add_medicine_to_stock_lbl_quantity_stock"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText" />
 
-        <!-- Botão -->
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#4CAF50"
-            android:text="@string/btn_save"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-    </LinearLayout>
-</ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <EditText
+                    android:id="@+id/activity_form_add_medicine_to_stock_quantity_stock"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_background"
+                    android:hint="1"
+                    android:inputType="numberDecimal"
+                    android:padding="12dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/primaryText"
+                    android:backgroundTint="@color/primary" />
+            </LinearLayout>
+
+            <!-- Tipo da Unidade do Remédio -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/activity_form_add_medicine_to_stock_lbl_unit_stock"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/activity_form_add_medicine_to_stock_medicine_unit"
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:backgroundTint="@color/primary" />
+            </RelativeLayout>
+
+            <!-- Data de Validade -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_form_add_medicine_to_stock_lbl_expiration_date"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText" />
+
+            <EditText
+                android:id="@+id/activity_form_add_medicine_to_stock_expiration_date"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="26/05/2025"
+                android:background="@drawable/edit_text_background"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="date"
+                android:padding="12dp"
+                android:textSize="15sp"
+                android:textColor="@color/primaryText"
+                android:backgroundTint="@color/primary" />
+
+            <!-- Tipo de Medicamento -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_form_add_medicine_to_stock_lbl_medicine_type"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/activity_form_add_medicine_to_stock_medicine_type"
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:backgroundTint="@color/primary" />
+            </RelativeLayout>
+
+            <!-- Forma de Administração -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_form_add_medicine_to_stock_lbl_administration_type"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="8dp">
+
+                <Spinner
+                    android:id="@+id/activity_form_add_medicine_to_stock_administration_type"
+                    style="@style/Widget.AppCompat.DropDownItem.Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:backgroundTint="@color/primary" />
+            </RelativeLayout>
+
+            <!-- Foto do Medicamento -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_form_add_medicine_to_stock_lbl_photo"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:id="@+id/activity_form_add_medicine_to_stock_photo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/edit_text_background"
+                    android:contentDescription="@string/medicine_photo"
+                    android:scaleType="centerCrop" />
+
+                <Button
+                    android:id="@+id/activity_form_add_medicine_to_stock_btn_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/take_photo"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="@color/primary"
+                    android:textColor="@color/onPrimary"/>
+            </LinearLayout>
+
+            <!-- Botão -->
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/primary"
+                android:text="@string/btn_save"
+                android:textAllCaps="false"
+                android:textColor="@color/onPrimary"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

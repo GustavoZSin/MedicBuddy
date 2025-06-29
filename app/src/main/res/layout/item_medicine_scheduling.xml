@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@color/cardBackground">
 
     <TextView
         android:id="@+id/item_medicine_scheduling_name"
@@ -11,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:text="Nome do Agendamento" />
+        android:text="Nome do Agendamento"
+        android:textColor="@color/primaryText" />
 
     <ImageButton
         android:id="@+id/item_medicine_scheduling_done"
@@ -30,5 +32,5 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/delete"
         android:src="@android:drawable/ic_menu_delete"
-        app:tint="#F44336" />
+        app:tint="@color/error" />
 </LinearLayout>
